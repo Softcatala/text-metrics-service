@@ -19,59 +19,6 @@
 
 from repetitionrule import RepetitionRule
 
-
-class RepetitionRule():
-
-
-    def load(self):
-        self.word_lemma = {}
-
-        with open("diccionari.txt", "r") as dictionary:
-            while True:
-
-                line = dictionary.readline().lower()
-                if not line:
-                    break
-
-                components = line.split(' ')
-                word = components[0]
-                lemma = components[1]
-
-                if len(word) < 5: ## skip stop words: la, una, etc
-                    continue
-
-                self.word_lemma[word] = lemma
-
-#        for word in self.word_lemma:
-#            print(f"{word} -> {self.word_lemma[word]}")
-
-    def check(self, sentence):
-        words = sentence.split(' ')
-
-        lemma_frequency = {}
-
-        for word in words:
-            if word not in self.word_lemma:
-                #print(f"{word} not found")
-                continue
-
-            lemma = self.word_lemma[word]
-
-            if lemma in lemma_frequency:
-                frequency = lemma_frequency[lemma]
-            else:
-                frequency = 0 
-
-            frequency = frequency + 1
-            lemma_frequency[lemma] = frequency
-
-        for lemma in lemma_frequency:
-            frequency = lemma_frequency[lemma]
-
-            if frequency > 3:
-                print(f"{lemma} -> {sentence}")  
-
-
 class Document():
 
 
