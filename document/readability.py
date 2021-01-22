@@ -17,12 +17,59 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
+from syllabes import Syllabes
+import re
 
-class Redability():
+class Readability():
 
-    def __init__:
-        pass
+    def _count_sentences(self, text):
+        text = text.replace("\n","")
+        sentence_end = re.compile('[.:;!?\)\()]')
+        sencences=sentence_end.split(text)
+        sencences = list(filter(None, sencences))
+        if len(sencences) == 0:
+            return 1
+        else:
+            return len(sencences)
 
-    def _get_score(document):
+
+    
+    def get_crawford(self, document):
+        syllabes = Syllabes()
+        sentences = document.get_sentences()
+
+        word_cnt = 0
+        syllabes_cnt = 0
+        sentences_cnt = self._count_sentences(document.get_text())
         
+        for sentence in sentences:
+            words = sentence.split(" ")
+            for word in words:
+                word_cnt = word_cnt + 1
+                syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
+
+        SeW = 100 * sentences_cnt / word_cnt
+        SiW = 100 * syllabes_cnt / word_cnt
+        years = -0.205 * SeW + 0.049 * SiW - 3.407
+        years = round(years,1)
+        return years
+
+    # https://legible.es/blog/perspicuidad-szigriszt-pazos/
+    def get_score(self, document):
+
+        syllabes = Syllabes()
+        sentences = document.get_sentences()
+
+        word_cnt = 0
+        syllabes_cnt = 0
+        sentences_cnt = self._count_sentences(document.get_text())
         
+        for sentence in sentences:
+            words = sentence.split(" ")
+            for word in words:
+                word_cnt = word_cnt + 1
+                syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
+        
+        p = 206.835 - (63.3 * syllabes_cnt / word_cnt) - (word_cnt / sentences_cnt)
+        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
+        return p
