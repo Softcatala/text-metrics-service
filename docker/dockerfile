@@ -1,0 +1,13 @@
+FROM python:3.8.6-slim-buster
+RUN apt-get update -y && apt-get upgrade -y
+RUN pip install gunicorn
+
+
+COPY requirements.txt /srv/
+RUN pip install -r /srv/requirements.txt
+COPY docker/entrypoint.sh /srv/
+COPY web/*.py /srv/web/
+
+ENTRYPOINT srv/entrypoint.sh
+
+
