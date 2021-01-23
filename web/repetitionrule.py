@@ -17,9 +17,10 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
+from match import Match
+
 
 class RepetitionRule():
-
 
     def load(self):
         self.word_lemma = {}
@@ -44,6 +45,7 @@ class RepetitionRule():
 #            print(f"{word} -> {self.word_lemma[word]}")
 
     def check(self, sentence):
+        match = None
         words = sentence.split(' ')
 
         lemma_frequency = {}
@@ -66,6 +68,10 @@ class RepetitionRule():
         for lemma in lemma_frequency:
             frequency = lemma_frequency[lemma]
 
-            if frequency > 3:
-                print(f"{lemma} -> {sentence}")  
+            if frequency > 2:
+                print(f"{lemma} -> {sentence}")
+                match = Match()
+                match.message = f"Repetició {frequency} cops del lema {lemma}"
+
+        return match
 

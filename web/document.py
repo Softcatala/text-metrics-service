@@ -17,11 +17,9 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from repetitionrule import RepetitionRule
-from readability import Readability
-
 import srx_segmenter
 import os
+import regex
 
 srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'segment.srx')
 rules = srx_segmenter.parse(srx_filepath)
@@ -29,26 +27,15 @@ rules = srx_segmenter.parse(srx_filepath)
 
 class Document():
 
+    def __init__(self, text):
+        self.text = text
+
     def get_text(self):
         return self.text
 
     def read_file(self, filename):
         with open(filename, "r") as source:
             self.text = source.read()
-
-
-    def __do__old(self, text):
-        repetitionRule = RepetitionRule()
-        repetitionRule.load()
-    
-        with open(filename, "r") as source:
-            while True:
-
-                line = source.readline()
-                if not line:
-                    break
-
-                repetitionRule.check(line)
 
     def get_paragraphs(self):
         PARAGRAPH_SEP = regex.compile("[\r\n]")
@@ -58,14 +45,6 @@ class Document():
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], self.text)
         segments, whitespaces = segmenter.extract()
         return segments
-
-def main():
-    doc = Document()
-    doc.read_file("1000.txt")
-    redability = Readability()
-    score = redability.get_score(doc)
-    years = redability.get_crawford(doc)
-    print(f"Readibility Szigriszt-pazos: {score}, years: {years}")
 
 if __name__ == "__main__":
     main()
