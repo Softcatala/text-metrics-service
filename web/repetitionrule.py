@@ -44,8 +44,11 @@ class RepetitionRule():
 #        for word in self.word_lemma:
 #            print(f"{word} -> {self.word_lemma[word]}")
 
-    def check(self, sentence):
+    def check(self, paragraph):
+        print(f"{paragraph.offset} - {paragraph.text}")
         match = None
+
+        sentence = paragraph.text
         words = sentence.split(' ')
 
         lemma_frequency = {}
@@ -71,6 +74,7 @@ class RepetitionRule():
             if frequency > 2:
                 print(f"{lemma} -> {sentence}")
                 match = Match()
+                match.offset = paragraph.offset
                 match.message = f"Repetició {frequency} cops del lema {lemma}"
 
         return match

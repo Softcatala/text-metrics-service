@@ -24,6 +24,11 @@ import regex
 srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'segment.srx')
 rules = srx_segmenter.parse(srx_filepath)
 
+class Paragraph():
+    def __init__(self, text, offset):
+        self.text = text
+        self.offset = offset
+
 
 class Document():
 
@@ -39,7 +44,15 @@ class Document():
 
     def get_paragraphs(self):
         PARAGRAPH_SEP = regex.compile("[\r\n]")
-        return PARAGRAPH_SEP.split(self.text)
+
+        paragraphs = []
+        offset = 0
+        for text in PARAGRAPH_SEP.split(self.text):
+            paragraph = Paragraph(text, offset)
+            offset = offset + len(text) + 1
+            paragraphs.append(paragraph)
+
+        return paragraphs
 
     def get_sentences(self):
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], self.text)
