@@ -28,7 +28,11 @@ class TestSyllabes(unittest.TestCase):
                 "mariner", 3,
                 "aigua", 2,
                 "sensesostre", 4,
-                "ajudeu", 3
+                "ajudeu", 3,
+                "il·luminació", 6,
+                "aplicacions", 5,
+                "malpensat", 3,
+                "capsigrany", 3
             ]
 
     def test_words(self):
