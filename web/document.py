@@ -32,7 +32,7 @@ class Paragraph():
 
 class Document():
 
-    def __init__(self, text):
+    def __init__(self, text = ''):
         self.text = text
 
     def get_text(self):

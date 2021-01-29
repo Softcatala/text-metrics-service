@@ -1272,8 +1272,6 @@ del exceptions
 class Syllabes():
 
     def get_count(self, text):
-
         words = hyphenate_word(text)
-        print(words)
         return len(words)
 
