@@ -18,13 +18,21 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
+
 from __future__ import print_function
 from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin
 import json
 import datetime
+
+import sys
+sys.path.append('../core/')
+
+
 from rules import Rules
 from document import Document
+
+
 from readability import Readability
 
 app = Flask(__name__)

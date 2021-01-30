@@ -6,8 +6,9 @@ COPY requirements.txt /srv/
 RUN pip install -r /srv/requirements.txt
 COPY docker/entrypoint.sh /srv/
 COPY web/*.py /srv/web/
-COPY web/diccionari.txt /srv/web/
-COPY web/segment.srx /srv/web/
+COPY core/*.py /srv/core/
+COPY core/diccionari.txt /srv/core/
+COPY core/segment.srx /srv/core/
 
 ENTRYPOINT srv/entrypoint.sh
 

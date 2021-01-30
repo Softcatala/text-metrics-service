@@ -18,14 +18,17 @@
 # Boston, MA 02111-1307, USA.
 
 from match import Match
-
+import os
 
 class RepetitionRule():
 
     def load(self):
         self.word_lemma = {}
 
-        with open("diccionari.txt", "r") as dictionary:
+        diccionary_file = os.path.dirname(os.path.realpath(__file__))
+        diccionary_file = os.path.join(diccionary_file, "diccionari.txt")
+
+        with open(diccionary_file, "r") as dictionary:
             while True:
 
                 line = dictionary.readline().lower()
