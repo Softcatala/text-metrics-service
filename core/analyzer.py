@@ -20,35 +20,37 @@
 
 
 from __future__ import print_function
-from flask import Flask, request, Response
-from flask_cors import CORS, cross_origin
-import json
+import datetime
 
-import sys
-sys.path.append('../core/')
-
-
-from analyzer import Analyzer
+from rules import Rules
 from document import Document
+from readability import Readability
 
+class Analyzer():
 
-app = Flask(__name__)
-CORS(app)
+    def __init__(self, document):
+        self.document = document
 
-def json_answer(data, status = 200):
-    json_data = json.dumps(data, indent=4, separators=(',', ': '))
-    resp = Response(json_data, mimetype='application/json', status = status)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
-   
+    def _get_stats(self):
 
-@app.route('/check/', methods=['GET'])
-def check_api():
+        stats = {}
+        redability = Readability()
+        score = redability.get_score(self.document)
+        years = redability.get_crawford(self.document)
 
-    text = request.args.get('text')
-    document = Document(text)
-    result = Analyzer(document).do()
-    return json_answer(result)
+        stats['readability'] = score
+        stats['years'] = years
+        return stats
+
+    def _get_rules(self):
+        rules = Rules()
+        return rules.check(self.document)
+
+    def do(self):
+        result = {}
+        result['stats'] = self._get_stats()
+        result['matches'] = self._get_rules()
+        return result
 
 
 if __name__ == '__main__':

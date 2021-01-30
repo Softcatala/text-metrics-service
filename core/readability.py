@@ -71,5 +71,5 @@ class Readability():
                 syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
         
         p = 206.835 - (63.3 * syllabes_cnt / word_cnt) - (word_cnt / sentences_cnt)
-        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
+#        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
         return p
