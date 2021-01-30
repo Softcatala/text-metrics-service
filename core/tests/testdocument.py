@@ -23,7 +23,7 @@ import unittest
 import os
 
 
-class TestReadability(unittest.TestCase):
+class TestDocument(unittest.TestCase):
 
     def _get_path_to_file(self, filename):
         directory = os.path.dirname(os.path.realpath(__file__))
@@ -37,23 +37,20 @@ class TestReadability(unittest.TestCase):
         doc.read_file(full_path)
         return doc
 
-    def test_get_score(self):
+    def test_get_paragraphs(self):
         doc = self._get_document()
-        readability = Readability()
-        score = readability.get_score(doc)
-        self.assertEquals(54.38657922558478, score)
+        paragraphs = len(doc.get_paragraphs())
+        self.assertEquals(30, paragraphs)
 
-    def test_get_crawford(self):
+    def test_get_paragraphs(self):
         doc = self._get_document()
-        readability = Readability()
-        crawford = readability.get_crawford(doc)
-        self.assertEquals(5.9, crawford)
+        sentences = len(doc.get_sentences())
+        self.assertEquals(31, sentences)
 
-    def test_get_read_time(self):
+    def test_get_words(self):
         doc = self._get_document()
-        readability = Readability()
-        time = readability.get_read_time(doc)
-        self.assertEquals(74, time)
+        words = doc.get_count_words()
+        self.assertEquals(329, words)
 
 if __name__ == '__main__':
     unittest.main()

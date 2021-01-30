@@ -59,5 +59,12 @@ class Document():
         segments, whitespaces = segmenter.extract()
         return segments
 
+    def get_count_words(self):
+        words = 0
+        for sentence in self.get_sentences():
+            words += len(sentence.split(' '))
+
+        return words
+
 if __name__ == "__main__":
     main()

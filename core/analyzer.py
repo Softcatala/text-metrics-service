@@ -37,9 +37,11 @@ class Analyzer():
         redability = Readability()
         score = redability.get_score(self.document)
         years = redability.get_crawford(self.document)
+        read_time = redability.get_read_time(self.document)
 
         stats['readability'] = score
         stats['years'] = years
+        stats['read_time'] = read_time
         return stats
 
     def _get_rules(self):
