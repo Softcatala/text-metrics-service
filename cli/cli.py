@@ -96,7 +96,7 @@ def main():
         document.read_file(file)
         print(f"*** {file}")
 
-        results = Analyzer(document).do()
+        results = Analyzer(document).get_all()
         json_results = json.dumps(results, indent=4, separators=(',', ': '))
 
         print(json_results)

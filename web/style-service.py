@@ -42,12 +42,20 @@ def json_answer(data, status = 200):
     return resp
    
 
-@app.route('/check/', methods=['GET'])
+@app.route('/metrics', methods=['GET'])
+def metrics_api():
+
+    text = request.args.get('text')
+    document = Document(text)
+    result = Analyzer(document).get_metrics()
+    return json_answer(result)
+
+@app.route('/check', methods=['GET'])
 def check_api():
 
     text = request.args.get('text')
     document = Document(text)
-    result = Analyzer(document).do()
+    result = Analyzer(document).get_all()
     return json_answer(result)
 
 

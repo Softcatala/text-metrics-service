@@ -32,7 +32,6 @@ class Analyzer():
         self.document = document
 
     def _get_stats(self):
-
         stats = {}
         redability = Readability()
         score = redability.get_score(self.document)
@@ -52,9 +51,19 @@ class Analyzer():
         rules = Rules()
         return rules.check(self.document)
 
-    def do(self):
+    def get_metrics(self):
         result = {}
-        result['stats'] = self._get_stats()
+        result['metrics'] = self._get_stats()
+        return result
+
+    def get_check_rules(self):
+        result = {}
+        result['matches'] = self._get_rules()
+        return result
+
+    def get_all(self):
+        result = {}
+        result['metrics'] = self._get_stats()
         result['matches'] = self._get_rules()
         return result
 
