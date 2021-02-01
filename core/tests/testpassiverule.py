@@ -17,27 +17,27 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from repetitionrule import RepetitionRule
+import unittest
 from passiverule import PassiveRule
+from document import Document
+
+class TestPassiveRule(unittest.TestCase):
 
 
-class Rules():
+    def test_passive_sentence(self):
+        doc = Document('No va ser prou ràpid')
+        rule = PassiveRule()
+        rule.load()
+        match = rule.check(doc.get_paragraphs()[0])
+        self.assertEquals(None, match)
 
-    def check(self, document):
-        matches = []
+    def test_passive_sentence(self):
+        doc = Document('No va ser robat per en Joan')
+        rule = PassiveRule()
+        rule.load()
+        match = rule.check(doc.get_paragraphs()[0])
+        self.assertNotEquals(None, match)
 
-        repetition_rule = RepetitionRule()
-        passive_rule = PassiveRule()
-        repetition_rule.load()
-        passive_rule.load()
-        for paragraph in document.get_paragraphs():
-            match = repetition_rule.check(paragraph)
-            if match is not None:
-                matches.append(match.get_dict())
 
-            match = passive_rule.check(paragraph)
-            if match is not None:
-                matches.append(match.get_dict())
-
-        return matches
-
+if __name__ == '__main__':
+    unittest.main()

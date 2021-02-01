@@ -41,7 +41,7 @@ def init_logging(del_logs):
     logger = logging.getLogger()
     hdlr = logging.FileHandler(logfile)
     logger.addHandler(hdlr)
-    logger.setLevel(logging.WARNING)
+    logger.setLevel(logging.DEBUG)
 
 def read_parameters():
     parser = OptionParser()
