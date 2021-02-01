@@ -20,6 +20,7 @@
 import srx_segmenter
 import os
 import regex
+from syllabes import Syllabes
 
 srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'segment.srx')
 rules = srx_segmenter.parse(srx_filepath)
@@ -58,6 +59,17 @@ class Document():
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], self.text)
         segments, whitespaces = segmenter.extract()
         return segments
+
+    def get_count_syllabes(self):
+        syllabes = Syllabes()
+        cnt = 0
+        for sentence in self.get_sentences():
+            words = sentence.split(' ')
+            for word in words:
+                cnt += syllabes.get_count(word)
+
+        return cnt
+
 
     def get_count_words(self):
         words = 0

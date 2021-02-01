@@ -42,6 +42,10 @@ class Analyzer():
         stats['readability'] = score
         stats['years'] = years
         stats['read_time'] = read_time
+        stats['paragraphs'] = len(self.document.get_paragraphs())
+        stats['sentences'] = len(self.document.get_sentences())
+        stats['words'] = self.document.get_count_words()
+        stats['syllabes'] = self.document.get_count_syllabes()
         return stats
 
     def _get_rules(self):
