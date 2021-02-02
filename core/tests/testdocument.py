@@ -42,7 +42,7 @@ class TestDocument(unittest.TestCase):
         paragraphs = len(doc.get_paragraphs())
         self.assertEquals(30, paragraphs)
 
-    def test_get_paragraphs(self):
+    def test_get_sentences(self):
         doc = self._get_document()
         sentences = len(doc.get_sentences())
         self.assertEquals(31, sentences)
@@ -51,6 +51,12 @@ class TestDocument(unittest.TestCase):
         doc = self._get_document()
         words = doc.get_count_words()
         self.assertEquals(329, words)
+
+    def test_get_count_syllabes(self):
+        doc = self._get_document()
+        words = doc.get_count_syllabes()
+        self.assertEquals(718, words)
+
 
 if __name__ == '__main__':
     unittest.main()

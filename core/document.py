@@ -73,7 +73,6 @@ class Document():
 
         return cnt
 
-
     def get_count_words(self):
         words = 0
         for sentence in self.get_sentences():
