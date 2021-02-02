@@ -67,6 +67,7 @@ class RepetitionRule():
         words = sentence.split(' ')
 
         lemma_frequency = {}
+        lemma_occurrences = {}
 
         for word in words:
             if word not in self.word_lemma:
@@ -74,6 +75,14 @@ class RepetitionRule():
                 continue
 
             lemma = self.word_lemma[word]
+
+            if lemma in lemma_occurrences:
+                ocurrences = lemma_occurrences[lemma]
+            else:
+                ocurrences = set()
+
+            ocurrences.add(word)
+            lemma_occurrences[lemma] = ocurrences
 
             if lemma in lemma_frequency:
                 frequency = lemma_frequency[lemma]
@@ -87,11 +96,12 @@ class RepetitionRule():
             frequency = lemma_frequency[lemma]
 
             if frequency > 2:
-#                print(f"{lemma} -> {sentence}")
                 match = Match()
                 match.line = paragraph.line
                 match.offset = paragraph.offset
-                match.message = f"Repetició {frequency} cops del lema «{lemma}»"
+                ocurrences = ', '.join(lemma_occurrences[lemma])
+
+                match.message = f"Repetició {frequency} cops del lema «{lemma}» ({ocurrences})"
                 matches.append(match)
 
         return matches
