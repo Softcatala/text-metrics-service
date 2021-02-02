@@ -135,14 +135,14 @@ class PassiveRule():
     # See: https://geiec.iec.cat/capitol_veure.asp?id_gelc=320&capitol=19
     def check(self, paragraph):
 #        print(f"{paragraph.line} - {paragraph.offset} - {paragraph.text}")
-        match = None
+        matches = []
 
         sentence = paragraph.text.lower()
         words = sentence.split(' ')
         len_words = len(words)
 
         if len_words < 5:
-            return match
+            return matches
 
         for idx in range(0, len_words - 3):
             for ser in self.sers.keys():
@@ -156,5 +156,6 @@ class PassiveRule():
                         match.offset = paragraph.offset
                         match.line = paragraph.line
                         match.message = f"La frase «{words[idx]} {words[idx+1]} {words[idx+2]}» és passiva"
+                        matches.append(match)
 
-        return match
+        return matches

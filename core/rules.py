@@ -24,18 +24,20 @@ from passiverule import PassiveRule
 class Rules():
 
     def check(self, document):
-        matches = []
+        all_matches = []
 
         repetition_rule = RepetitionRule()
         passive_rule = PassiveRule()
         for paragraph in document.get_paragraphs():
-            match = repetition_rule.check(paragraph)
-            if match is not None:
-                matches.append(match.get_dict())
+            matches = repetition_rule.check(paragraph)
+            if len(matches) > 0:
+                for match in matches:
+                    all_matches.append(match.get_dict())
 
-            match = passive_rule.check(paragraph)
-            if match is not None:
-                matches.append(match.get_dict())
+            matches = passive_rule.check(paragraph)
+            if len(matches) > 0:
+                for match in matches:
+                    all_matches.append(match.get_dict())
 
-        return matches
+        return all_matches
 

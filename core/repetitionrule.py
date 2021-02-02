@@ -61,7 +61,7 @@ class RepetitionRule():
 
     def check(self, paragraph):
 #        print(f"{paragraph.offset} - {paragraph.text}")
-        match = None
+        matches = []
 
         sentence = paragraph.text
         words = sentence.split(' ')
@@ -92,6 +92,6 @@ class RepetitionRule():
                 match.line = paragraph.line
                 match.offset = paragraph.offset
                 match.message = f"Repetició {frequency} cops del lema «{lemma}»"
+                matches.append(match)
 
-        return match
-
+        return matches
