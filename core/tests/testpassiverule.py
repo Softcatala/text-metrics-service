@@ -24,17 +24,17 @@ from document import Document
 class TestPassiveRule(unittest.TestCase):
 
 
-    def test_passive_sentence(self):
-        doc = Document('No va ser prou ràpid')
+    def test_non_passive_sentence(self):
+        doc = Document('No serà prou ràpid')
         rule = PassiveRule()
-        match = rule.check(doc.get_paragraphs()[0])
-        self.assertEquals(None, match)
+        matches = rule.check(doc.get_paragraphs()[0])
+        self.assertEquals(0, len(matches))
 
     def test_passive_sentence(self):
         doc = Document('No va ser robat per en Joan')
         rule = PassiveRule()
-        match = rule.check(doc.get_paragraphs()[0])
-        self.assertNotEquals(None, match)
+        matches = rule.check(doc.get_paragraphs()[0])
+        self.assertEquals(1, len(matches))
 
 
 if __name__ == '__main__':
