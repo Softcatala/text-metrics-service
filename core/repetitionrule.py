@@ -77,6 +77,7 @@ class RepetitionRule():
             if frequency > 2:
 #                print(f"{lemma} -> {sentence}")
                 match = Match()
+                match.line = paragraph.line
                 match.offset = paragraph.offset
                 match.message = f"Repetició {frequency} cops del lema {lemma}"
 

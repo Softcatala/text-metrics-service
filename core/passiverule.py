@@ -116,7 +116,7 @@ class PassiveRule():
 
     # See: https://geiec.iec.cat/capitol_veure.asp?id_gelc=320&capitol=19
     def check(self, paragraph):
-        print(f"{paragraph.offset} - {paragraph.text}")
+        print(f"{paragraph.line} - {paragraph.offset} - {paragraph.text}")
         match = None
 
         sentence = paragraph.text.lower()
@@ -136,6 +136,7 @@ class PassiveRule():
                     if participi in self.participis[tag]:
                         match = Match()
                         match.offset = paragraph.offset
-                        match.message = f"La frase {words[idx]} {words[idx+1]} {words[idx+2]} és passiva"
+                        match.line = paragraph.line
+                        match.message = f"La frase «{words[idx]} {words[idx+1]} {words[idx+2]}» és passiva"
 
         return match

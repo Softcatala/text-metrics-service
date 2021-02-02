@@ -26,9 +26,10 @@ srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'segment
 rules = srx_segmenter.parse(srx_filepath)
 
 class Paragraph():
-    def __init__(self, text, offset):
+    def __init__(self, text, offset, line):
         self.text = text
         self.offset = offset
+        self.line = line
 
 
 class Document():
@@ -48,10 +49,12 @@ class Document():
 
         paragraphs = []
         offset = 0
+        line = 1
         for text in PARAGRAPH_SEP.split(self.text):
-            paragraph = Paragraph(text, offset)
+            paragraph = Paragraph(text, offset, line)
             offset = offset + len(text) + 1
             paragraphs.append(paragraph)
+            line = line + 1
 
         return paragraphs
 

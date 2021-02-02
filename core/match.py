@@ -23,9 +23,14 @@ class Match():
     def __init__(self):
         self.offset = 0
         self.message = 0
+        self.line = -1
 
     def get_dict(self):
         d = {}
         d['message'] = self.message
         d['offset'] = self.offset
+
+        if self.line >= 0:
+            d['line'] = self.line
+
         return d
