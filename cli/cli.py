@@ -66,12 +66,21 @@ def read_parameters():
         help="Directory to process"
     )
 
+    parser.add_option(
+        '-m',
+        '--metrics',
+        action='store_true',
+        default=False,
+        dest='metrics_only',
+        help="Show metrics only"
+    )
+
     (options, args) = parser.parse_args()
 
     if options.filename is None and options.directory is None:
         parser.error('Filename or directory not given')
 
-    return options.filename, options.directory
+    return options.filename, options.directory, options.metrics_only
 
 
 def main():
@@ -83,7 +92,7 @@ def main():
 
     start_time = datetime.datetime.now()
 
-    filename, directory = read_parameters()
+    filename, directory, metrics_only = read_parameters()
 
     if filename is not None:
         files = [filename]
@@ -96,7 +105,11 @@ def main():
         document.read_file(file)
         print(f"*** {file}")
 
-        results = Analyzer(document).get_all()
+        if metrics_only:
+            results = Analyzer(document).get_metrics()
+        else:
+            results = Analyzer(document).get_all()
+
         json_results = json.dumps(results, indent=4, separators=(',', ': '))
 
         print(json_results)
