@@ -110,7 +110,7 @@ def main():
         else:
             results = Analyzer(document).get_all()
 
-        json_results = json.dumps(results, indent=4, separators=(',', ': '))
+        json_results = json.dumps(results, ensure_ascii=False, indent=4, separators=(',', ': '))
 
         print(json_results)
     
