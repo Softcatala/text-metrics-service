@@ -97,7 +97,6 @@ class PassiveRule():
             logging.debug(f"ser: {ser} -> {self.sers[ser]}")
 
         for num in self.participis.keys():
-            print(num)
             for participi in self.participis[num]:
                 logging.info(f"participi: {num} -> {participi}")
 
