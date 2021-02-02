@@ -22,7 +22,7 @@ import os
 import re
 import logging
 
-class PassiveRule():
+class LoadDictionary():
 
     S = "S"
     P = "P"
@@ -67,13 +67,14 @@ class PassiveRule():
             participis[self.P] = verbs
 
 
+
     # Part of speech tags documentation:
     # https://freeling-user-manual.readthedocs.io/en/latest/tagsets/tagset-ca/#part-of-speech-verb
     def load(self):
         SER_POSTAG = 'VSN0'
         PARTICIPI_POSTAG = 'VMP00'
-        self.sers = {}
-        self.participis = {}
+        sers = {}
+        participis = {}
 
         diccionary_file = os.path.dirname(os.path.realpath(__file__))
         diccionary_file = os.path.join(diccionary_file, "diccionari.txt")
@@ -88,17 +89,33 @@ class PassiveRule():
                 form, lemma, postag = self._get_form_lemma_postag_from_line(line)
 
                 if postag[0:4] == SER_POSTAG:
-                    self._add_passat_perifrastic_indicatiu(self.sers, form)
+                    self._add_passat_perifrastic_indicatiu(sers, form)
 
                 if postag[0:5] == PARTICIPI_POSTAG:
-                    self._add_participis(self.participis, form, postag[5:])
+                    self._add_participis(participis, form, postag[5:])
 
-        for ser in self.sers:
-            logging.debug(f"ser: {ser} -> {self.sers[ser]}")
+        for ser in sers:
+            logging.debug(f"ser: {ser} -> {sers[ser]}")
 
-        for num in self.participis.keys():
-            for participi in self.participis[num]:
-                logging.info(f"participi: {num} -> {participi}")
+        for num in participis.keys():
+            for participi in participis[num]:
+                logging.debug(f"participi: {num} -> {participi}")
+
+        return sers, participis
+
+
+d = LoadDictionary()
+g_sers, g_participis = d.load()
+
+class PassiveRule():
+
+    S = LoadDictionary().S
+    P = LoadDictionary().P
+
+    def __init__(self):
+        self.sers = g_sers
+        self.participis = g_participis
+
 
     # https://geiec.iec.cat/capitol_veure.asp?id_gelc=321&capitol=19
     '''

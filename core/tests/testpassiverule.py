@@ -27,14 +27,12 @@ class TestPassiveRule(unittest.TestCase):
     def test_passive_sentence(self):
         doc = Document('No va ser prou ràpid')
         rule = PassiveRule()
-        rule.load()
         match = rule.check(doc.get_paragraphs()[0])
         self.assertEquals(None, match)
 
     def test_passive_sentence(self):
         doc = Document('No va ser robat per en Joan')
         rule = PassiveRule()
-        rule.load()
         match = rule.check(doc.get_paragraphs()[0])
         self.assertNotEquals(None, match)
 

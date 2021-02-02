@@ -28,8 +28,6 @@ class Rules():
 
         repetition_rule = RepetitionRule()
         passive_rule = PassiveRule()
-        repetition_rule.load()
-        passive_rule.load()
         for paragraph in document.get_paragraphs():
             match = repetition_rule.check(paragraph)
             if match is not None:

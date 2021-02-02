@@ -20,10 +20,10 @@
 from match import Match
 import os
 
-class RepetitionRule():
+class LoadDictionary():
 
     def load(self):
-        self.word_lemma = {}
+        word_lemma = {}
 
         diccionary_file = os.path.dirname(os.path.realpath(__file__))
         diccionary_file = os.path.join(diccionary_file, "diccionari.txt")
@@ -42,10 +42,21 @@ class RepetitionRule():
                 if len(word) < 5: ## skip stop words: la, una, etc
                     continue
 
-                self.word_lemma[word] = lemma
+                word_lemma[word] = lemma
 
-#        for word in self.word_lemma:
-#            print(f"{word} -> {self.word_lemma[word]}")
+#        for word in word_lemma:
+#            print(f"{word} -> {word_lemma[word]}")
+
+        return word_lemma
+
+d = LoadDictionary()
+g_word_lemma = d.load()
+
+
+class RepetitionRule():
+
+    def __init__(self):
+        self.word_lemma = g_word_lemma
 
     def check(self, paragraph):
 #        print(f"{paragraph.offset} - {paragraph.text}")
