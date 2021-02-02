@@ -79,7 +79,7 @@ class RepetitionRule():
                 match = Match()
                 match.line = paragraph.line
                 match.offset = paragraph.offset
-                match.message = f"Repetició {frequency} cops del lema {lemma}"
+                match.message = f"Repetició {frequency} cops del lema «{lemma}»"
 
         return match
 

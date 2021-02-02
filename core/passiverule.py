@@ -116,7 +116,7 @@ class PassiveRule():
 
     # See: https://geiec.iec.cat/capitol_veure.asp?id_gelc=320&capitol=19
     def check(self, paragraph):
-        print(f"{paragraph.line} - {paragraph.offset} - {paragraph.text}")
+#        print(f"{paragraph.line} - {paragraph.offset} - {paragraph.text}")
         match = None
 
         sentence = paragraph.text.lower()
