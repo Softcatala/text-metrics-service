@@ -77,7 +77,7 @@ class LoadDictionary():
         participis = {}
 
         diccionary_file = os.path.dirname(os.path.realpath(__file__))
-        diccionary_file = os.path.join(diccionary_file, "diccionari.txt")
+        diccionary_file = os.path.join(diccionary_file, "linguistic-data/diccionari.txt")
 
         with open(diccionary_file, "r") as dictionary:
             while True:
@@ -101,6 +101,7 @@ class LoadDictionary():
             for participi in participis[num]:
                 logging.debug(f"participi: {num} -> {participi}")
 
+        print("Passive rule loaded")
         return sers, participis
 
 

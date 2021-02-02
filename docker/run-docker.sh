@@ -1,1 +1,1 @@
-docker run -p 8505:8000 -i -t style-checker
+docker run -it --rm -p 8505:8000 style-checker

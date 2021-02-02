@@ -7,8 +7,7 @@ RUN pip install -r /srv/requirements.txt
 COPY docker/entrypoint.sh /srv/
 COPY web/*.py /srv/web/
 COPY core/*.py /srv/core/
-COPY core/diccionari.txt /srv/core/
-COPY core/segment.srx /srv/core/
+COPY core/linguistic-data/* /srv/core/linguistic-data/
 
 ENTRYPOINT srv/entrypoint.sh
 

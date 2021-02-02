@@ -22,7 +22,7 @@ import os
 import regex
 from syllabes import Syllabes
 
-srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'segment.srx')
+srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'linguistic-data/segment.srx')
 rules = srx_segmenter.parse(srx_filepath)
 
 class Paragraph():

@@ -26,7 +26,7 @@ class LoadDictionary():
         word_lemma = {}
 
         diccionary_file = os.path.dirname(os.path.realpath(__file__))
-        diccionary_file = os.path.join(diccionary_file, "diccionari.txt")
+        diccionary_file = os.path.join(diccionary_file, "linguistic-data/diccionari.txt")
 
         with open(diccionary_file, "r") as dictionary:
             while True:
@@ -47,6 +47,7 @@ class LoadDictionary():
 #        for word in word_lemma:
 #            print(f"{word} -> {word_lemma[word]}")
 
+        print("Repetition rule loaded")
         return word_lemma
 
 d = LoadDictionary()
