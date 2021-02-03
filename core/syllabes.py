@@ -1267,11 +1267,15 @@ hyphenate_word = hyphenator.hyphenate_word
 del patterns
 del exceptions
 
-
+syllabes_cache = {}
 
 class Syllabes():
 
     def get_count(self, text):
-        words = hyphenate_word(text)
-        return len(words)
+        if text in syllabes_cache:
+            return syllabes_cache[text]
 
+        words = hyphenate_word(text)
+        count = len(words)
+        syllabes_cache[text] = count
+        return count
