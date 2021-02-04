@@ -91,8 +91,6 @@ class LoadDictionary():
                         logging.debug(f"Excluded noun class {postag[4]} {postag} - '{word}'")
                         continue
 
-                logging.debug(f"'{word}';{lemma};{postag};{category}")
-
                 if len(word) < 3: ## 8a, 7è, 6è
                     continue
 
