@@ -27,11 +27,8 @@ import json
 import sys
 sys.path.append('../core/')
 
-from optparse import OptionParser
-from analyzer import Analyzer
-from document import Document
-from findfiles import FindFiles
-
+# Logging has to be init before importing files
+# with static loaded methods that log data
 def init_logging(del_logs):
     logfile = 'cli.log'
 
@@ -42,6 +39,14 @@ def init_logging(del_logs):
     hdlr = logging.FileHandler(logfile)
     logger.addHandler(hdlr)
     logger.setLevel(logging.DEBUG)
+
+init_logging(True)
+
+from optparse import OptionParser
+from analyzer import Analyzer
+from document import Document
+from findfiles import FindFiles
+
 
 def read_parameters():
     parser = OptionParser()
@@ -87,8 +92,6 @@ def main():
 
     print("Runs metrics and rules on local file")
     print("Use --help for more details")
-
-    init_logging(True)
 
     start_time = datetime.datetime.now()
 
