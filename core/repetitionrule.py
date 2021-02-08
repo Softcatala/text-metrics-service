@@ -74,6 +74,11 @@ class LoadDictionary():
 
                 category = postag[0]
 
+                if any(char.isdigit() for char in lemma):
+                    logging.debug(f"excluded lemma '{lemma}'")
+                    excluded.add(word)
+                    continue
+
                 if category not in ['A', 'V', 'N', 'R']:
                     logging.debug(f"excluded '{category}' - '{word}'")
                     excluded.add(word)
