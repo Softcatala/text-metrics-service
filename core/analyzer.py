@@ -20,10 +20,7 @@
 
 
 from __future__ import print_function
-import datetime
-
 from rules import Rules
-from document import Document
 from readability import Readability
 
 class Analyzer():
@@ -66,9 +63,3 @@ class Analyzer():
         result['metrics'] = self._get_stats()
         result['matches'] = self._get_rules()
         return result
-
-
-if __name__ == '__main__':
-    app.debug = True
-    app.run()
-

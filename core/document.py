@@ -19,9 +19,7 @@
 
 import srx_segmenter
 import os
-import regex
 import re
-import logging
 from syllabes import Syllabes
 
 srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'linguistic-data/segment.srx')
@@ -104,6 +102,3 @@ class Document():
             words += len(sentence.text.split(' '))
 
         return words
-
-if __name__ == "__main__":
-    main()
