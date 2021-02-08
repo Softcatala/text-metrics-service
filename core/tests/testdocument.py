@@ -40,12 +40,55 @@ class TestDocument(unittest.TestCase):
     def test_get_paragraphs(self):
         doc = self._get_document()
         paragraphs = len(doc.get_paragraphs())
-        self.assertEquals(30, paragraphs)
+        self.assertEquals(18, paragraphs)
 
     def test_get_sentences(self):
         doc = self._get_document()
         sentences = len(doc.get_sentences())
         self.assertEquals(31, sentences)
+
+    def test_get_sentences_lines(self):
+        text  = 'Hola amics.\r\nNo hi anirem tots. Pero jo anire i sera molt divertit.\n\nQuin dia es?\n\rDilluns'
+        doc = Document(text)
+        sentences = doc.get_sentences()
+
+        expected_results = [
+                [1, 0, "Hola amics."],
+                [2, 13, "No hi anirem tots."],
+                [2, 32, "Pero jo anire i sera molt divertit."],
+                [4, 69, "Quin dia es?"],
+                [5, 83, "Dilluns"]
+            ]
+
+        self.assertEquals(len(expected_results), len(sentences))
+
+        idx = 0
+        for expected in expected_results:
+            self.assertEquals(expected[0], sentences[idx].line)
+            self.assertEquals(expected[1], sentences[idx].offset)
+            self.assertEquals(expected[2], sentences[idx].text)
+            idx = idx + 1
+
+    def test_get_sentences_lines(self):
+        text  = 'Hola amics.\r\nNo hi anirem tots. Pero jo anire i sera molt divertit.\n\nQuin dia es?\n\rDilluns'
+        doc = Document(text)
+        paragraphs = doc.get_paragraphs()
+
+        expected_results = [
+                [1, 0, "Hola amics."],
+                [2, 13, "No hi anirem tots. Pero jo anire i sera molt divertit."],
+                [4, 69, "Quin dia es?"],
+                [5, 83, "Dilluns"]
+            ]
+
+        self.assertEquals(len(expected_results), len(paragraphs))
+
+        idx = 0
+        for expected in expected_results:
+            self.assertEquals(expected[0], paragraphs[idx].line)
+            self.assertEquals(expected[1], paragraphs[idx].offset)
+            self.assertEquals(expected[2], paragraphs[idx].text)
+            idx = idx + 1
 
     def test_get_words(self):
         doc = self._get_document()

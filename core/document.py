@@ -20,12 +20,20 @@
 import srx_segmenter
 import os
 import regex
+import re
+import logging
 from syllabes import Syllabes
 
 srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'linguistic-data/segment.srx')
 rules = srx_segmenter.parse(srx_filepath)
 
 class Paragraph():
+    def __init__(self, text, offset, line):
+        self.text = text
+        self.offset = offset
+        self.line = line
+
+class Sentence():
     def __init__(self, text, offset, line):
         self.text = text
         self.offset = offset
@@ -45,29 +53,46 @@ class Document():
             self.text = source.read()
 
     def get_paragraphs(self):
-        PARAGRAPH_SEP = regex.compile("[\r\n]")
-
-        paragraphs = []
-        offset = 0
+        PARAGRAPH_SEP = re.compile("([\r\n])")
+        PARAGRAPH_LINES_CNT = re.compile("\r?\n")
         line = 1
+        offset = 0
+        paragraphs = []
+
         for text in PARAGRAPH_SEP.split(self.text):
-            paragraph = Paragraph(text, offset, line)
-            offset = offset + len(text) + 1
-            paragraphs.append(paragraph)
-            line = line + 1
+            if len(text.strip()) > 0:
+                paragraph = Paragraph(text, offset, line)
+                paragraphs.append(paragraph)
+
+            offset = offset + len(text)
+            line = line + len(re.findall(PARAGRAPH_LINES_CNT, text))
 
         return paragraphs
 
     def get_sentences(self):
+        PARAGRAPH_LINES_CNT = re.compile("\r?\n")
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], self.text)
         segments, whitespaces = segmenter.extract()
-        return segments
+
+        line = 1
+        offset = 0
+        sentences = []
+
+        for i in range(0, len(segments)):
+            line = line + len(re.findall(PARAGRAPH_LINES_CNT, whitespaces[i]))
+
+            offset = offset + len(whitespaces[i])
+            sentence = Sentence(segments[i], offset, line)
+            offset = offset + len(segments[i])
+            sentences.append(sentence)
+
+        return sentences
 
     def get_count_syllabes(self):
         syllabes = Syllabes()
         cnt = 0
         for sentence in self.get_sentences():
-            words = sentence.split(' ')
+            words = sentence.text.split(' ')
             for word in words:
                 cnt += syllabes.get_count(word)
 
@@ -76,7 +101,7 @@ class Document():
     def get_count_words(self):
         words = 0
         for sentence in self.get_sentences():
-            words += len(sentence.split(' '))
+            words += len(sentence.text.split(' '))
 
         return words
 

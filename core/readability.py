@@ -43,7 +43,7 @@ class Readability():
         sentences_cnt = self._count_sentences(document.get_text())
         
         for sentence in sentences:
-            words = sentence.split(" ")
+            words = sentence.text.split(" ")
             for word in words:
                 word_cnt = word_cnt + 1
                 syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
@@ -65,7 +65,7 @@ class Readability():
         sentences_cnt = self._count_sentences(document.get_text())
         
         for sentence in sentences:
-            words = sentence.split(" ")
+            words = sentence.text.split(" ")
             for word in words:
                 word_cnt = word_cnt + 1
                 syllabes_cnt = syllabes_cnt + syllabes.get_count(word)

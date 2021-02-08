@@ -19,12 +19,11 @@
 
 from repetitionrule import RepetitionRule
 from passiverule import PassiveRule
-
+from lengthrule import LengthRule
 
 class Rules():
 
     def _do_paragraph_rules(self, document, all_matches):
-
         rules = [RepetitionRule(), PassiveRule()]
 
         for paragraph in document.get_paragraphs():
@@ -34,10 +33,21 @@ class Rules():
                     for match in matches:
                         all_matches.append(match.get_dict())
 
+    def _do_sentences_rules(self, document, all_matches):
+        rules = [LengthRule()]
+
+        for sentence in document.get_sentences():
+            for rule in rules:
+                matches = rule.check(sentence)
+                if len(matches) > 0:
+                    for match in matches:
+                        all_matches.append(match.get_dict())
+
 
     def check(self, document):
         all_matches = []
 
         self._do_paragraph_rules(document, all_matches)
+        self._do_sentences_rules(document, all_matches)
         return all_matches
 
