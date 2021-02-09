@@ -24,7 +24,7 @@ from lengthrule import LengthRule
 class Rules():
 
     def _do_paragraph_rules(self, document, all_matches):
-        rules = [RepetitionRule(), PassiveRule()]
+        rules = [PassiveRule()]
 
         for paragraph in document.get_paragraphs():
             for rule in rules:
@@ -34,7 +34,7 @@ class Rules():
                         all_matches.append(match.get_dict())
 
     def _do_sentences_rules(self, document, all_matches):
-        rules = [LengthRule()]
+        rules = [LengthRule(), RepetitionRule()]
 
         for sentence in document.get_sentences():
             for rule in rules:

@@ -25,7 +25,7 @@ class TestLengthRule(unittest.TestCase):
 
 
     def test_check_longsentence(self):
-        doc = Document('El GIMP es pot utilitzar com a un simple programa de dibuix, com a un programa de retoc fotogràfic professional, com a un sistema de processament massiu en línia.')
+        doc = Document('El GIMP es pot utilitzar com a un simple programa de dibuix, com a un programa de retoc fotogràfic professional, com a un sistema de processament massiu en línia, com a un sistema de processament massiu en línia, com a un sistema de processament.')
         rule = LengthRule()
         matches = rule.check(doc.get_sentences()[0])
         self.assertEquals(1, len(matches))

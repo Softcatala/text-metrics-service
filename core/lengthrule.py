@@ -27,7 +27,7 @@ class LengthRule():
 
 
     def check(self, sentence):
-        MAX_WORDS = 25
+        MAX_WORDS = 35
         matches = []
 
         words = sentence.text.split(' ')
