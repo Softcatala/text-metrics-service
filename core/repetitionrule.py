@@ -60,6 +60,7 @@ class LoadDictionary():
 
         num = 0
         excluded = set()
+        _digits = re.compile('\d')
         with open(diccionary_file, "r") as dictionary:
             while True:
 
@@ -95,7 +96,7 @@ class LoadDictionary():
                         logging.debug(f"Excluded noun class {postag[4]} {postag} - '{word}'")
                         continue
 
-                if any(char.isdigit() for char in lemma):
+                if _digits.search(lemma):
                     logging.debug(f"excluded lemma '{lemma}'")
                     excluded.add(word)
                     continue
