@@ -70,14 +70,13 @@ class LoadDictionary():
 
                 num = num + 1
                 word, lemma, postag = self._get_form_lemma_postag_from_line(line)
+
+                if len(word) < 3: ## 8a, 7è, 6è
+                    continue
+
                 word = word.lower()
 
                 category = postag[0]
-
-                if any(char.isdigit() for char in lemma):
-                    logging.debug(f"excluded lemma '{lemma}'")
-                    excluded.add(word)
-                    continue
 
                 if category not in ['A', 'V', 'N', 'R']:
                     logging.debug(f"excluded '{category}' - '{word}'")
@@ -96,7 +95,9 @@ class LoadDictionary():
                         logging.debug(f"Excluded noun class {postag[4]} {postag} - '{word}'")
                         continue
 
-                if len(word) < 3: ## 8a, 7è, 6è
+                if any(char.isdigit() for char in lemma):
+                    logging.debug(f"excluded lemma '{lemma}'")
+                    excluded.add(word)
                     continue
 
                 word_lemma[word] = lemma
