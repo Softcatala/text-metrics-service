@@ -93,12 +93,12 @@ class TestDocument(unittest.TestCase):
     def test_get_words(self):
         doc = self._get_document()
         words = doc.get_count_words()
-        self.assertEquals(329, words)
+        self.assertEquals(342, words)
 
     def test_get_count_syllabes(self):
         doc = self._get_document()
-        words = doc.get_count_syllabes()
-        self.assertEquals(718, words)
+        syllabes = doc.get_count_syllabes()
+        self.assertEquals(730, syllabes)
 
 
 if __name__ == '__main__':

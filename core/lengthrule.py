@@ -17,10 +17,12 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from match import Match
 import os
 import re
 import logging
+
+from match import Match
+from wordtokenizer import WordTokenizer
 
 
 class LengthRule():
@@ -30,7 +32,8 @@ class LengthRule():
         MAX_WORDS = 35
         matches = []
 
-        words = sentence.text.split(' ')
+        tokenizer = WordTokenizer()
+        words = tokenizer.tokenize_without_separators(sentence.text)
 
         if len(words) > MAX_WORDS:
             match = Match()

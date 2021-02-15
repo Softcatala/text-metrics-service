@@ -41,19 +41,19 @@ class TestReadability(unittest.TestCase):
         doc = self._get_document()
         readability = Readability()
         score = readability.get_score(doc)
-        self.assertEquals(54.38657922558478, score)
+        self.assertEquals(56.851399694889416, score)
 
     def test_get_crawford(self):
         doc = self._get_document()
         readability = Readability()
         crawford = readability.get_crawford(doc)
-        self.assertEquals(5.9, crawford)
+        self.assertEquals(5.7, crawford)
 
     def test_get_read_time(self):
         doc = self._get_document()
         readability = Readability()
         time = readability.get_read_time(doc)
-        self.assertEquals(74, time)
+        self.assertEquals(77, time)
 
 if __name__ == '__main__':
     unittest.main()

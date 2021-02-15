@@ -42,11 +42,9 @@ class Readability():
         syllabes_cnt = 0
         sentences_cnt = self._count_sentences(document.get_text())
         
-        for sentence in sentences:
-            words = sentence.text.split(" ")
-            for word in words:
-                word_cnt = word_cnt + 1
-                syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
+        for word in document.get_words():
+            word_cnt = word_cnt + 1
+            syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
 
         SeW = 100 * sentences_cnt / word_cnt
         SiW = 100 * syllabes_cnt / word_cnt
@@ -64,12 +62,10 @@ class Readability():
         syllabes_cnt = 0
         sentences_cnt = self._count_sentences(document.get_text())
         
-        for sentence in sentences:
-            words = sentence.text.split(" ")
-            for word in words:
-                word_cnt = word_cnt + 1
-                syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
-        
+        for word in document.get_words():
+            word_cnt = word_cnt + 1
+            syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
+
         p = 206.835 - (63.3 * syllabes_cnt / word_cnt) - (word_cnt / sentences_cnt)
 #        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
         return p

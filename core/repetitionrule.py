@@ -17,10 +17,11 @@
 # Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
 
-from match import Match
 import os
 import re
 import logging
+from match import Match
+from wordtokenizer import WordTokenizer
 
 class LoadDictionary():
 
@@ -124,8 +125,9 @@ class RepetitionRule():
 #        print(f"{paragraph.offset} - {paragraph.text}")
         matches = []
 
-        sentence = paragraph.text
-        words = sentence.split(' ')
+        text = paragraph.text
+        tokenizer = WordTokenizer()
+        words = tokenizer.tokenize_without_separators(text)
 
         lemma_frequency = {}
         lemma_occurrences = {}
