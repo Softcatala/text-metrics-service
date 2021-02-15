@@ -66,10 +66,15 @@ search_12 = re.compile(r'([\d]) ([\d][\d][\d]) ([\d][\d][\d])')
 search_13 = re.compile(r'([\d]) ([\d][\d][\d])')
 search_14 = re.compile(r'\u0001\u0001CA_SPACE0\u0001\u0001')
 
-
 g_cache = {}
 g_cache_ttl = time.time()
 EXPIRE_CACHE = 30 * 60
+
+import os
+CACHE_ITEMS = 'CACHE_ITEMS'
+g_cached_enabled = (CACHE_ITEMS in os.environ and os.environ[CACHE_ITEMS].lower() == 'false') == False
+print(f"Word tokenizer cache enabled {g_cached_enabled}")
+
 
 class WordTokenizer():
 
@@ -77,7 +82,7 @@ class WordTokenizer():
     #El resultat inclou separadors i elements buits (entre separadors)
     def tokenize(self, text):
 
-        if text in g_cache:
+        if g_cached_enabled and text in g_cache:
             return g_cache[text]
 
         auxText = text
@@ -122,11 +127,14 @@ class WordTokenizer():
             if not patternFound:
                 tokensList.extend(self._splitWordsHyphen(token))
 
-        if time.time() > EXPIRE_CACHE + g_cache_ttl:
-            g_cache.clear()
-            print("Cleaned cache")
+        if g_cached_enabled:
+            if time.time() > EXPIRE_CACHE + g_cache_ttl:
+                g_cache.clear()
+                print("Cleaned cache")
 
-        g_cache[text] = tokensList
+            
+            g_cache[text] = tokensList
+
         return tokensList
 
     def _splitWordsHyphen(self, s):

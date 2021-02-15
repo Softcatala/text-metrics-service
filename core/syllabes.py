@@ -1267,15 +1267,23 @@ hyphenate_word = hyphenator.hyphenate_word
 del patterns
 del exceptions
 
+import os
+CACHE_ITEMS = 'CACHE_ITEMS'
+g_cached_enabled = (CACHE_ITEMS in os.environ and os.environ[CACHE_ITEMS].lower() == 'false') == False
+print(f"Syllabes cache enabled {g_cached_enabled}")
+
 syllabes_cache = {}
 
 class Syllabes():
 
     def get_count(self, text):
-        if text in syllabes_cache:
+        if g_cached_enabled and text in syllabes_cache:
             return syllabes_cache[text]
 
         words = hyphenate_word(text)
         count = len(words)
-        syllabes_cache[text] = count
+
+        if g_cached_enabled:
+            syllabes_cache[text] = count
+
         return count
