@@ -41,7 +41,7 @@ class TestReadability(unittest.TestCase):
         doc = self._get_document()
         readability = Readability()
         score = readability.get_score(doc)
-        self.assertEquals(56.851399694889416, score)
+        self.assertEquals(57, score)
 
     def test_get_crawford(self):
         doc = self._get_document()

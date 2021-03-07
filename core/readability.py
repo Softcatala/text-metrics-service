@@ -68,7 +68,7 @@ class Readability():
 
         p = 206.835 - (63.3 * syllabes_cnt / word_cnt) - (word_cnt / sentences_cnt)
 #        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
-        return p
+        return round(p)
 
     def get_read_time(self, document):
         words = document.get_count_words()
