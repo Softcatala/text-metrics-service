@@ -28,6 +28,12 @@ class Analyzer():
     def __init__(self, document):
         self.document = document
 
+    def _get_stat(self, name, score):
+        return {
+                "name" : name,
+                "score": score
+        }
+
     def _get_stats(self):
         stats = {}
         redability = Readability()
@@ -35,13 +41,13 @@ class Analyzer():
         years = redability.get_crawford(self.document)
         read_time = redability.get_read_time(self.document)
 
-        stats['readability'] = score
-        stats['years'] = years
-        stats['read_time'] = read_time
-        stats['paragraphs'] = len(self.document.get_paragraphs())
-        stats['sentences'] = len(self.document.get_sentences())
-        stats['words'] = self.document.get_count_words()
-        stats['syllabes'] = self.document.get_count_syllabes()
+        stats['readability'] = self._get_stat("Llegibilitat", score)
+        stats['read_time'] = self._get_stat("Temps de lectura", read_time)
+        stats['years'] = self._get_stat("Edat", years)
+        stats['paragraphs'] = self._get_stat("Paràgrafs",len(self.document.get_paragraphs()))
+        stats['sentences'] = self._get_stat("Frases",len(self.document.get_sentences()))
+        stats['words'] = self._get_stat("Paraules",self.document.get_count_words())
+        stats['syllabes'] = self._get_stat("Síl·labes", self.document.get_count_syllabes())
         return stats
 
     def _get_rules(self):
