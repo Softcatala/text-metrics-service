@@ -22,6 +22,8 @@ import re
 
 class Readability():
 
+    MIN_WORDS_REQUIRED = 50
+
     def _count_sentences(self, text):
         text = text.replace("\n","")
         sentence_end = re.compile('[.:;!?\)\()]')
@@ -32,9 +34,12 @@ class Readability():
         else:
             return len(sencences)
 
-
     
     def get_crawford(self, document):
+
+        if document.get_count_words() < self.MIN_WORDS_REQUIRED:
+            return -1
+
         syllabes = Syllabes()
         sentences = document.get_sentences()
 
@@ -54,6 +59,9 @@ class Readability():
 
     # https://legible.es/blog/perspicuidad-szigriszt-pazos/
     def get_score(self, document):
+
+        if document.get_count_words() < self.MIN_WORDS_REQUIRED:
+            return -1
 
         syllabes = Syllabes()
         sentences = document.get_sentences()

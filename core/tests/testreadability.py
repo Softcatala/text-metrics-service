@@ -43,11 +43,24 @@ class TestReadability(unittest.TestCase):
         score = readability.get_score(doc)
         self.assertEquals(57, score)
 
+    def test_get_score_too_short(self):
+        doc = Document("Hola")
+        readability = Readability()
+        score = readability.get_score(doc)
+        self.assertEquals(-1, score)
+
     def test_get_crawford(self):
         doc = self._get_document()
         readability = Readability()
         crawford = readability.get_crawford(doc)
         self.assertEquals(5.7, crawford)
+
+    def test_get_crawford_too_short(self):
+        doc = Document("Hola")
+        readability = Readability()
+        crawford = readability.get_crawford(doc)
+        self.assertEquals(-1, crawford)
+
 
     def test_get_read_time(self):
         doc = self._get_document()

@@ -34,6 +34,15 @@ class Analyzer():
                 "score": score
         }
 
+    def _set_stat(self, stats, field, name, score):
+
+        if score == -1:
+            stats["message"] = "Les mètriques de llegibilitat només s'ofereixen per textos prou llargs"
+            return
+
+        value = self._get_stat(name, score)
+        stats[field] = value
+
     def _get_stats(self):
         stats = {}
         redability = Readability()
@@ -41,13 +50,13 @@ class Analyzer():
         years = redability.get_crawford(self.document)
         read_time = redability.get_read_time(self.document)
 
-        stats['readability'] = self._get_stat("Llegibilitat", score)
-        stats['read_time'] = self._get_stat("Temps de lectura", read_time)
-        stats['years'] = self._get_stat("Edat", years)
-        stats['paragraphs'] = self._get_stat("Paràgrafs",len(self.document.get_paragraphs()))
-        stats['sentences'] = self._get_stat("Frases",len(self.document.get_sentences()))
-        stats['words'] = self._get_stat("Paraules",self.document.get_count_words())
-        stats['syllabes'] = self._get_stat("Síl·labes", self.document.get_count_syllabes())
+        self._set_stat(stats, 'readability', "Llegibilitat", score)
+        self._set_stat(stats, 'read_time', "Temps de lectura", read_time)
+        self._set_stat(stats, 'years', "Edat", years)
+        self._set_stat(stats, 'paragraphs', "Paràgrafs",len(self.document.get_paragraphs()))
+        self._set_stat(stats, 'sentences', "Frases",len(self.document.get_sentences()))
+        self._set_stat(stats, 'words', "Paraules",self.document.get_count_words())
+        self._set_stat(stats, 'syllabes', "Síl·labes", self.document.get_count_syllabes())
         return stats
 
     def _get_rules(self):
