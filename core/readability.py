@@ -19,10 +19,14 @@
 
 from syllabes import Syllabes
 import re
+import datetime as dt
+import humanize
+
 
 class Readability():
 
     MIN_WORDS_REQUIRED = 50
+    init_locale = False
 
     def _count_sentences(self, text):
         text = text.replace("\n","")
@@ -78,8 +82,15 @@ class Readability():
 #        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
         return round(p)
 
+    def _get_humanized_time(self, seconds):
+        if self.init_locale is False:
+            humanize.i18n.activate("ca_ES")
+            self.init_locale = True
+
+        delta = dt.timedelta(seconds=seconds)
+        return humanize.precisedelta(delta, minimum_unit="seconds", format="%0.0f")
+
     def get_read_time(self, document):
         words = document.get_count_words()
         seconds = (int) (words / 265 * 60)
-        return seconds
-
+        return self._get_humanized_time(seconds)
