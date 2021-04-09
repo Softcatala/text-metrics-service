@@ -28,20 +28,20 @@ class Analyzer():
     def __init__(self, document):
         self.document = document
 
-    def _get_stat(self, name, score):
+    def _get_stat(self, name, value):
         return {
                 "name" : name,
-                "score": score
+                "value": value
         }
 
-    def _set_stat(self, stats, field, name, score):
+    def _set_stat(self, stats, field, name, value):
 
-        if score == -1:
+        if value == -1:
             stats["message"] = "Les mètriques de llegibilitat només s'ofereixen per textos prou llargs"
             return
 
-        value = self._get_stat(name, score)
-        stats[field] = value
+        pair = self._get_stat(name, value)
+        stats[field] = pair
 
     def _get_stats(self):
         stats = {}
