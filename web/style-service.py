@@ -41,11 +41,17 @@ def json_answer(data, status = 200):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
    
+@app.route('/metrics', methods=['POST'])
+def metrics_api_post():
+    return _metrics_api(request.form)
 
 @app.route('/metrics', methods=['GET'])
-def metrics_api():
+def metrics_api_get():
+   return _metrics_api(request.args)
 
-    text = request.args.get('text')
+def _metrics_api(values):
+
+    text = values['text']
     document = Document(text)
     result = Analyzer(document).get_metrics()
     return json_answer(result)
