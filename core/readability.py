@@ -84,7 +84,11 @@ class Readability():
 
     def _get_humanized_time(self, seconds):
         if self.init_locale is False:
-            humanize.i18n.activate("ca_ES")
+            try:
+                humanize.i18n.activate("ca_ES")
+            except:
+                pass
+
             self.init_locale = True
 
         delta = dt.timedelta(seconds=seconds)
