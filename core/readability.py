@@ -25,7 +25,7 @@ import humanize
 
 class Readability():
 
-    MIN_WORDS_REQUIRED = 50
+    MIN_WORDS_REQUIRED = 100
     init_locale = False
 
     def _count_sentences(self, text):
@@ -62,6 +62,7 @@ class Readability():
         return years
 
     # https://legible.es/blog/perspicuidad-szigriszt-pazos/
+    # Adapted for Catalan language
     def get_score(self, document):
 
         if document.get_count_words() < self.MIN_WORDS_REQUIRED:
@@ -78,8 +79,11 @@ class Readability():
             word_cnt = word_cnt + 1
             syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
 
-        p = 206.835 - (63.3 * syllabes_cnt / word_cnt) - (word_cnt / sentences_cnt)
+        p = 206.835 - (67.409 * syllabes_cnt / word_cnt) - (0.994 * word_cnt / sentences_cnt)
 #        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
+        if p < 0: p = 0
+        if p > 100: p = 100
+
         return round(p)
 
     def _get_humanized_time(self, seconds):
