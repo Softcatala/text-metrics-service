@@ -52,7 +52,6 @@ class Analyzer():
 
         self._set_stat(stats, 'readability', "Llegibilitat", score)
         self._set_stat(stats, 'read_time', "Temps de lectura", read_time)
-        self._set_stat(stats, 'years', "Edat", years)
         self._set_stat(stats, 'paragraphs', "Paràgrafs",len(self.document.get_paragraphs()))
         self._set_stat(stats, 'sentences', "Frases",len(self.document.get_sentences()))
         self._set_stat(stats, 'words', "Paraules",self.document.get_count_words())
