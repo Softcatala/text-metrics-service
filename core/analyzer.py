@@ -37,7 +37,7 @@ class Analyzer():
     def _set_stat(self, stats, field, name, value):
 
         if value == -1:
-            stats["message"] = "Les mètriques de llegibilitat només s'ofereixen per textos prou llargs"
+            stats["message"] = "Les mètriques de llegibilitat només s'ofereixen per a textos prou llargs"
             return
 
         pair = self._get_stat(name, value)
