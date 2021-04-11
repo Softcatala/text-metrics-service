@@ -41,7 +41,7 @@ class TestReadability(unittest.TestCase):
         doc = self._get_document()
         readability = Readability()
         score = readability.get_score(doc)
-        self.assertEquals(57, score)
+        self.assertEquals(48, score)
 
     def test_get_score_too_short(self):
         doc = Document("Hola")
