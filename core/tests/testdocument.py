@@ -98,7 +98,7 @@ class TestDocument(unittest.TestCase):
     def test_get_count_syllabes(self):
         doc = self._get_document()
         syllabes = doc.get_count_syllabes()
-        self.assertEquals(730, syllabes)
+        self.assertEquals(720, syllabes)
 
 
 if __name__ == '__main__':

@@ -26,7 +26,7 @@ class TestAnalyzer(unittest.TestCase):
 
     def test_metics(self):
 
-        to_validate = ["read_time", "paragraphs", "sentences", "words", "syllabes", "readability"]
+        to_validate = ["read_time", "paragraphs", "sentences", "words", "syllabes"]
 
         doc = Document("Hola, benvinguts.")
         analyzer = Analyzer(doc)

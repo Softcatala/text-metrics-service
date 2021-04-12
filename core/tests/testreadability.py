@@ -41,7 +41,7 @@ class TestReadability(unittest.TestCase):
         doc = self._get_document()
         readability = Readability()
         score = readability.get_score(doc)
-        self.assertEquals(48, score)
+        self.assertEquals(54, score)
 
     def test_get_score_too_short(self):
         doc = Document("Hola")
@@ -53,7 +53,7 @@ class TestReadability(unittest.TestCase):
         doc = self._get_document()
         readability = Readability()
         crawford = readability.get_crawford(doc)
-        self.assertEquals(5.7, crawford)
+        self.assertEquals(5.1, crawford)
 
     def test_get_crawford_too_short(self):
         doc = Document("Hola")
