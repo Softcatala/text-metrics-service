@@ -73,7 +73,16 @@ class Readability():
             self.init_locale = True
 
         delta = dt.timedelta(seconds=seconds)
-        return humanize.precisedelta(delta, minimum_unit="seconds", format="%0.0f")
+        text = humanize.precisedelta(delta, minimum_unit="seconds", format="%0.0f")
+
+        text = text.replace("hores", "h")
+        text = text.replace("minuts", "min")
+        text = text.replace("segons", "s")
+        text = text.replace("hora", "h")
+        text = text.replace("minut", "min")
+        text = text.replace("segon", "s")
+        text = text.replace(" i ", " ")
+        return text
 
     def get_read_time(self, document):
         words = document.get_count_words()
