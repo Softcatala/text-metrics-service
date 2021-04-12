@@ -100,7 +100,8 @@ class Document():
         syllabes = Syllabes()
         cnt = 0
         for word in self.get_words():
-            cnt += syllabes.get_count(word)
+            # Count syllabes for words with vowels only
+            if re.search('[aeiouàèéíïòóúü]', word, re.I): cnt += syllabes.get_count(word)
 
         return cnt
 

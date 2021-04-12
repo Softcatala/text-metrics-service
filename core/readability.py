@@ -53,7 +53,8 @@ class Readability():
         
         for word in document.get_words():
             word_cnt = word_cnt + 1
-            syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
+            # Count syllabes for words with vowels only
+            if re.search('[aeiouàèéíïòóúü]', word, re.I): syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
 
         SeW = 100 * sentences_cnt / word_cnt
         SiW = 100 * syllabes_cnt / word_cnt
@@ -77,7 +78,8 @@ class Readability():
         
         for word in document.get_words():
             word_cnt = word_cnt + 1
-            syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
+            # Count syllabes for words with vowels only
+            if re.search('[aeiouàèéíïòóúü]', word, re.I): syllabes_cnt = syllabes_cnt + syllabes.get_count(word)
 
         p = 206.835 - (67.409 * syllabes_cnt / word_cnt) - (0.994 * word_cnt / sentences_cnt)
 #        print(f"p = {p} - {sentences_cnt} - {word_cnt} - {syllabes_cnt}")
