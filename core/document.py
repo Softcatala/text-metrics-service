@@ -107,3 +107,6 @@ class Document():
 
     def get_count_words(self):
         return len(self.get_words())
+
+    def get_count_sentences(self):
+        return len(self.get_sentences())
