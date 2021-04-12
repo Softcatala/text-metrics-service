@@ -56,6 +56,7 @@ class Analyzer():
         self._set_stat(stats, 'sentences', "Frases",len(self.document.get_sentences()))
         self._set_stat(stats, 'words', "Paraules",self.document.get_count_words())
         self._set_stat(stats, 'syllabes', "Síl·labes", self.document.get_count_syllabes())
+        self._set_stat(stats, 'graphemes', "Caràcters", self.document.get_count_graphemes())
         return stats
 
     def _get_rules(self):

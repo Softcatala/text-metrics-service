@@ -22,6 +22,7 @@ import os
 import re
 from syllabes import Syllabes
 from wordtokenizer import WordTokenizer
+import grapheme
 
 srx_filepath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'linguistic-data/segment.srx')
 rules = srx_segmenter.parse(srx_filepath)
@@ -110,3 +111,6 @@ class Document():
 
     def get_count_sentences(self):
         return len(self.get_sentences())
+
+    def get_count_graphemes(self):
+        return grapheme.length(self.text)
