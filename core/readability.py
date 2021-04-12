@@ -77,7 +77,7 @@ class Readability():
 
     def get_read_time(self, document):
         words = document.get_count_words()
-        seconds = (int) (words / 265 * 60)
+        seconds = (int) (words / 200 * 60)
 
         if words > 0 and seconds == 0:
             seconds = 1
