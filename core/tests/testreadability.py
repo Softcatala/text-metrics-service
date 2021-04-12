@@ -66,7 +66,13 @@ class TestReadability(unittest.TestCase):
         doc = self._get_document()
         readability = Readability()
         time = readability.get_read_time(doc)
-        self.assertEquals("1 min 42 s", time)
+        self.assertEquals("1 min 14 s", time)
+
+    def test_get_speak_time(self):
+        doc = self._get_document()
+        readability = Readability()
+        time = readability.get_speak_time(doc)
+        self.assertEquals("1 min 54 s", time)
 
 if __name__ == '__main__':
     unittest.main()

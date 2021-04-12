@@ -49,9 +49,11 @@ class Analyzer():
         score = redability.get_score(self.document)
         years = redability.get_crawford(self.document)
         read_time = redability.get_read_time(self.document)
+        speak_time = redability.get_speak_time(self.document)
 
         self._set_stat(stats, 'readability', "Llegibilitat", score)
         self._set_stat(stats, 'read_time', "Temps de lectura", read_time)
+        self._set_stat(stats, 'speak_time', "Temps de lectura en veu alta", speak_time)
         self._set_stat(stats, 'paragraphs', "Paràgrafs",len(self.document.get_paragraphs()))
         self._set_stat(stats, 'sentences', "Frases",len(self.document.get_sentences()))
         self._set_stat(stats, 'words', "Paraules",self.document.get_count_words())
