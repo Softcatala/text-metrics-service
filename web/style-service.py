@@ -50,16 +50,21 @@ def metrics_api_get():
    return _metrics_api(request.args)
 
 def _metrics_api(values):
-
     text = values['text']
     document = Document(text)
     result = Analyzer(document).get_metrics()
     return json_answer(result)
 
-@app.route('/check', methods=['GET'])
-def check_api():
+@app.route('/check', methods=['POST'])
+def check_api_post():
+    return _check_api(request.form)
 
-    text = request.args.get('text')
+@app.route('/check', methods=['GET'])
+def check_api_get():
+   return _check_api(request.args)
+
+def _check_api(values):
+    text = values['text']
     document = Document(text)
     result = Analyzer(document).get_all()
     return json_answer(result)
