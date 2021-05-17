@@ -39,6 +39,7 @@ class LengthRule():
             match = Match()
             match.line = sentence.line
             match.offset = sentence.offset
+            match.length = len(sentence.text)
 
             text = sentence.text[:20]
             match.message = f"La frase «{text}...» que és massa larga"
