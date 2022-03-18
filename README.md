@@ -1,6 +1,6 @@
 # Introduction
 
-A proof of concept of a Catalan style checker that complements LanguageTool
+This services provides a set of metrics given a piece of text
 
 # Docker container
 
@@ -10,5 +10,5 @@ Use ```docker/run-docker.sh``` to execute the Docker container
 
 Use locally:
 
-* ```http://localhost:8505/metrics?text=hola``` to get metrics only
-* ```http://localhost:8505/check?text=hola``` to get metrics and rules
+* ```http://localhost:8505/metrics?text=hola``` to get metrics
+

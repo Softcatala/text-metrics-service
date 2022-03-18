@@ -21,7 +21,7 @@
 
 from __future__ import print_function
 from flask import Flask, request, Response
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import json
 import os
 import sys
@@ -83,21 +83,6 @@ def _metrics_api(values):
     total_words += document.get_count_words()
 
     return json_answer(result)
-
-@app.route('/check', methods=['POST'])
-def check_api_post():
-    return _check_api(request.form)
-
-@app.route('/check', methods=['GET'])
-def check_api_get():
-   return _check_api(request.args)
-
-def _check_api(values):
-    text = values['text']
-    document = Document(text)
-    result = Analyzer(document).get_all()
-    return json_answer(result)
-
 
 if __name__ == '__main__':
     app.debug = True

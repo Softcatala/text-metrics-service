@@ -20,7 +20,6 @@
 
 
 from __future__ import print_function
-from rules import Rules
 from readability import Readability
 
 class Analyzer():
@@ -61,22 +60,7 @@ class Analyzer():
         self._set_stat(stats, 'graphemes', "Caràcters", self.document.get_count_graphemes())
         return stats
 
-    def _get_rules(self):
-        rules = Rules()
-        return rules.check(self.document)
-
     def get_metrics(self):
         result = {}
         result['metrics'] = self._get_stats()
-        return result
-
-    def get_check_rules(self):
-        result = {}
-        result['matches'] = self._get_rules()
-        return result
-
-    def get_all(self):
-        result = {}
-        result['metrics'] = self._get_stats()
-        result['matches'] = self._get_rules()
         return result
