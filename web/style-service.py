@@ -20,8 +20,10 @@
 
 
 from __future__ import print_function
-from flask import Flask, request, Response
-from flask_cors import CORS
+from typing import Optional
+import uvicorn
+from fastapi import FastAPI, Form, Request
+from pydantic import BaseModel
 import json
 import os
 import sys
@@ -34,28 +36,24 @@ from document import Document
 from syllabes import Syllabes
 from wordtokenizer import WordTokenizer
 
-app = Flask(__name__)
-CORS(app)
+class Item(BaseModel):
+    name: str
+
+app = FastAPI()
 
 metrics_calls = 0
 total_miliseconds = 0
 total_words = 0
 
-def json_answer(data, status = 200):
-    json_data = json.dumps(data, indent=4, separators=(',', ': '))
-    resp = Response(json_data, mimetype='application/json', status = status)
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
-   
-@app.route('/metrics', methods=['POST'])
-def metrics_api_post():
-    return _metrics_api(request.form)
+@app.post('/metrics')
+def metrics_api_post(item):
+    return _metrics_api(item.text)
 
-@app.route('/metrics', methods=['GET'])
-def metrics_api_get():
-    return _metrics_api(request.args)
+@app.get('/metrics')
+def metrics_api_get(text: str):
+    return _metrics_api(text)
 
-@app.route('/health', methods=['GET'])
+@app.get('/health')
 def health_api_get():
     s = Syllabes.get_stats()
     ws = WordTokenizer.get_stats()
@@ -69,22 +67,19 @@ def health_api_get():
     return s
 
 
-def _metrics_api(values):
+def _metrics_api(text):
     global metrics_calls, total_miliseconds, total_words
     metrics_calls += 1
     start = datetime.datetime.now()
 
-    text = values['text']
     document = Document(text)
     result = Analyzer(document).get_metrics()
     end = datetime.datetime.now()
 
     total_miliseconds += (end-start).microseconds
     total_words += document.get_count_words()
-
-    return json_answer(result)
+    return result
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run()
+    uvicorn.run('style-service:app', host='0.0.0.0', port=5000)
 
