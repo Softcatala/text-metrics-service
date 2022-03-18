@@ -45,6 +45,8 @@ class Document():
     def __init__(self, text = ''):
         self.text = text
         self.words = []
+        self.syllabes = 0
+        self.sentences = []
 
     def get_text(self):
         return self.text
@@ -71,6 +73,11 @@ class Document():
         return paragraphs
 
     def get_sentences(self):
+
+        if len(self.sentences) > 0:
+            return self.sentences
+
+
         PARAGRAPH_LINES_CNT = re.compile("\r?\n")
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], self.text)
         segments, whitespaces = segmenter.extract()
@@ -87,7 +94,8 @@ class Document():
             offset = offset + len(segments[i])
             sentences.append(sentence)
 
-        return sentences
+        self.sentences = sentences
+        return self.sentences
 
     def get_words(self):
 
@@ -98,13 +106,17 @@ class Document():
         return self.words
 
     def get_count_syllabes(self):
-        syllabes = Syllabes()
-        cnt = 0
-        for word in self.get_words():
-            # Count syllabes for words with vowels only
-            if re.search('[aeiouàèéíïòóúüáùìäöëî]', word, re.I): cnt += syllabes.get_count(word)
 
-        return cnt
+        if self.syllabes == 0:
+            syllabes = Syllabes()
+            cnt = 0
+            for word in self.get_words():
+                # Count syllabes for words with vowels only
+                if re.search('[aeiouàèéíïòóúüáùìäöëî]', word, re.I): cnt += syllabes.get_count(word)
+
+            self.syllabes = cnt
+
+        return self.syllabes
 
     def get_count_words(self):
         return len(self.get_words())
