@@ -23,17 +23,23 @@ from __future__ import print_function
 from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin
 import json
-
+import os
 import sys
+import datetime
 sys.path.append('../core/')
 
 
 from analyzer import Analyzer
 from document import Document
-
+from syllabes import Syllabes
+from wordtokenizer import WordTokenizer
 
 app = Flask(__name__)
 CORS(app)
+
+metrics_calls = 0
+total_miliseconds = 0
+total_words = 0
 
 def json_answer(data, status = 200):
     json_data = json.dumps(data, indent=4, separators=(',', ': '))
@@ -47,12 +53,37 @@ def metrics_api_post():
 
 @app.route('/metrics', methods=['GET'])
 def metrics_api_get():
-   return _metrics_api(request.args)
+    global metrics_calls
+
+    return _metrics_api(request.args)
+
+@app.route('/health', methods=['GET'])
+def health_api_get():
+    s = Syllabes.get_stats()
+    ws = WordTokenizer.get_stats()
+    s.update(ws)
+
+    s['metrics_calls'] = metrics_calls
+    seconds = total_miliseconds / 1000 if total_miliseconds else 0
+    s['words_per_second'] =  total_words / seconds if seconds else 0
+    s['average_time_per_request'] =  metrics_calls / seconds if seconds else 0
+    s['process_id'] =  os.getpid()
+    return s
+
 
 def _metrics_api(values):
+    global metrics_calls, total_miliseconds, total_words
+    metrics_calls += 1
+    start = datetime.datetime.now()
+
     text = values['text']
     document = Document(text)
     result = Analyzer(document).get_metrics()
+    end = datetime.datetime.now()
+
+    total_miliseconds += (end-start).microseconds
+    total_words += document.get_count_words()
+
     return json_answer(result)
 
 @app.route('/check', methods=['POST'])

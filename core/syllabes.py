@@ -1273,17 +1273,34 @@ g_cached_enabled = (CACHE_ITEMS in os.environ and os.environ[CACHE_ITEMS].lower(
 print(f"Syllabes cache enabled {g_cached_enabled}")
 
 syllabes_cache = {}
+misses =  0
+hits = 0
 
 class Syllabes():
 
+    @staticmethod
+    def get_stats():
+
+        stats = {
+            "syllabes_cache_misses" : misses,
+            "syllabes_cache_hits" : hits,
+            "syllabes_cache_size" : len(syllabes_cache),
+        }
+        return stats
+
     def get_count(self, text):
+        global misses
+        global hits
+
         if g_cached_enabled and text in syllabes_cache:
+            hits += 1
             return syllabes_cache[text]
 
         syllabes = hyphenate_word(text)
         count = len(syllabes)
 
         if g_cached_enabled:
+            misses += 1
             syllabes_cache[text] = count
 
         return count

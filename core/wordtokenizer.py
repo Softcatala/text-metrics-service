@@ -68,6 +68,8 @@ search_14 = re.compile(r'\u0001\u0001CA_SPACE0\u0001\u0001')
 
 g_cache = {}
 g_cache_ttl = time.time()
+misses = 0
+hits = 0
 EXPIRE_CACHE = 30 * 60
 
 import os
@@ -78,11 +80,23 @@ print(f"Word tokenizer cache enabled {g_cached_enabled}")
 
 class WordTokenizer():
 
+    @staticmethod
+    def get_stats():
+
+        stats = {
+            "word_tokenizer_cache_misses" : misses,
+            "word_tokenizer_cache_hits" : hits,
+            "word_tokenizer_cache_size" : len(g_cache),
+        }
+        return stats
     
     #El resultat inclou separadors i elements buits (entre separadors)
     def tokenize(self, text):
+        global misses
+        global hits
 
         if g_cached_enabled and text in g_cache:
+            hits += 1
             return g_cache[text]
 
         auxText = text
@@ -132,7 +146,8 @@ class WordTokenizer():
                 g_cache.clear()
                 print("Cleaned cache")
 
-            
+
+            misses += 1            
             g_cache[text] = tokensList
 
         return tokensList
