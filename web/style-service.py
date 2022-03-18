@@ -53,8 +53,6 @@ def metrics_api_post():
 
 @app.route('/metrics', methods=['GET'])
 def metrics_api_get():
-    global metrics_calls
-
     return _metrics_api(request.args)
 
 @app.route('/health', methods=['GET'])
