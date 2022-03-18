@@ -1280,8 +1280,8 @@ class Syllabes():
         if g_cached_enabled and text in syllabes_cache:
             return syllabes_cache[text]
 
-        words = hyphenate_word(text)
-        count = len(words)
+        syllabes = hyphenate_word(text)
+        count = len(syllabes)
 
         if g_cached_enabled:
             syllabes_cache[text] = count
