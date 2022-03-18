@@ -1,5 +1,5 @@
-FROM python:3.9.4-slim-buster
-RUN apt-get update -y && apt-get upgrade -y
+FROM python:3.10.2-slim-bullseye
+RUN apt-get update -y && apt-get upgrade -y && apt-get install gcc -y
 RUN pip install --upgrade pip
 
 COPY requirements.txt /srv/
