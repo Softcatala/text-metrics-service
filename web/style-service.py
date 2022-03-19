@@ -26,6 +26,8 @@ import json
 import os
 import sys
 import datetime
+import time
+import humanize
 sys.path.append('../core/')
 
 
@@ -40,6 +42,7 @@ CORS(app)
 metrics_calls = 0
 total_miliseconds = 0
 total_words = 0
+start_time = time.time()
 
 def json_answer(data, status = 200):
     json_data = json.dumps(data, indent=4, separators=(',', ': '))
@@ -66,6 +69,7 @@ def health_api_get():
     s['words_per_second'] =  total_words / seconds if seconds else 0
     s['average_time_per_request'] =  metrics_calls / seconds if seconds else 0
     s['process_id'] =  os.getpid()
+    s['up_time'] = humanize.precisedelta(time.time() - start_time, minimum_unit="seconds", format="%0.0f")
     return s
 
 
