@@ -12,6 +12,7 @@ from typing import (
     Optional
 )
 
+compiled_patterns_cache = {}
 
 class SrxSegmenter:
     """Handle segmentation with SRX regex format.
@@ -22,11 +23,20 @@ class SrxSegmenter:
         self.breaks = rule.get('breaks', [])
 
     def _get_break_points(self, regexes: List[Tuple[str, str]]) -> Set[int]:
-        return set([
-            match.span(1)[1]
-            for before, after in regexes
-            for match in regex.finditer('({})({})'.format(before, after), self.source_text)
-        ])
+        s = set()
+        for before, after in regexes:
+            pattern = '({})({})'.format(before, after)
+
+            compiled = compiled_patterns_cache.get(pattern)
+            if not compiled:
+                compiled = regex.compile(pattern)
+                compiled_patterns_cache[pattern] = compiled
+
+            matches = compiled.finditer(self.source_text)
+            for match in matches:
+                s.add(match.span(1)[1])
+
+        return s
 
     def get_non_break_points(self) -> Set[int]:
         """Return segment non break points
