@@ -1281,9 +1281,12 @@ class Syllabes():
     @staticmethod
     def get_stats():
 
+        total = hits + misses
+        phits = (hits * 100 / total) if total else 0
+
         stats = {
             "syllabes_cache_misses" : misses,
-            "syllabes_cache_hits" : hits,
+            "syllabes_cache_hits" : f"{hits} ({phits:.2f}%)",
             "syllabes_cache_size" : len(syllabes_cache),
         }
         return stats

@@ -83,9 +83,12 @@ class WordTokenizer():
     @staticmethod
     def get_stats():
 
+        total = hits + misses
+        phits = (hits * 100 / total) if total else 0
+
         stats = {
             "word_tokenizer_cache_misses" : misses,
-            "word_tokenizer_cache_hits" : hits,
+            "word_tokenizer_cache_hits" : f"{hits} ({phits:.2f}%)",
             "word_tokenizer_cache_size" : len(g_cache),
         }
         return stats
