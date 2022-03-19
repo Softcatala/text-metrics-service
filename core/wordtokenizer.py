@@ -142,10 +142,10 @@ class WordTokenizer():
                 tokensList.extend(self._splitWordsHyphen(token))
 
         if g_cached_enabled:
+            global g_cache_ttl
             if time.time() > EXPIRE_CACHE + g_cache_ttl:
                 g_cache.clear()
-                print("Cleaned cache")
-
+                g_cache_ttl = time.time()
 
             misses += 1            
             g_cache[text] = tokensList
