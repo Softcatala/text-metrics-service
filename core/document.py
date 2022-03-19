@@ -77,7 +77,6 @@ class Document():
         if len(self.sentences) > 0:
             return self.sentences
 
-
         PARAGRAPH_LINES_CNT = re.compile("\r?\n")
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], self.text)
         segments, whitespaces = segmenter.extract()
@@ -101,7 +100,14 @@ class Document():
 
         if len(self.words) == 0:
             tokenizer = WordTokenizer()
-            self.words = tokenizer.tokenize_without_separators(self.text)
+            words = []
+            # We count words at setence level to allow the tokenizer to cache at sentence level since users
+            # in production review modified versions of the text instead (once modifications are applied)
+            for sentence in self.get_sentences():
+                sentence_words = tokenizer.tokenize_without_separators(sentence.text)
+                words += sentence_words
+
+            self.words = words
 
         return self.words
 
