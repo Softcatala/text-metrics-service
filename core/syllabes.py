@@ -1296,6 +1296,7 @@ class Syllabes():
         global misses
         global hits
 
+        text = text.lower()
         if g_cached_enabled and text in syllabes_cache:
             hits += 1
             return syllabes_cache[text]
