@@ -1275,6 +1275,7 @@ print(f"Syllabes cache enabled {g_cached_enabled}")
 syllabes_cache = {}
 misses =  0
 hits = 0
+CACHE_MAX_SIZE = 2000000
 
 class Syllabes():
 
@@ -1304,6 +1305,7 @@ class Syllabes():
 
         if g_cached_enabled:
             misses += 1
-            syllabes_cache[text] = count
+            if len(syllabes_cache) < CACHE_MAX_SIZE:
+                syllabes_cache[text] = count
 
         return count
