@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- encoding: utf-8 -*-
 #
-# Copyright (c) 2021 Jordi Mas i Hernandez <jmas@softcatala.org>
+# Copyright (c) 2021-2022 Jordi Mas i Hernandez <jmas@softcatala.org>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -28,6 +28,9 @@ import sys
 import datetime
 import time
 import humanize
+import logging
+import logging.handlers
+
 sys.path.append('../core/')
 
 
@@ -43,6 +46,10 @@ metrics_calls = 0
 total_miliseconds = 0
 total_words = 0
 start_time = time.time()
+
+def init_logging():
+    LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+    logging.basicConfig(level=LOGLEVEL, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def json_answer(data, status = 200):
     json_data = json.dumps(data, indent=4, separators=(',', ': '))
@@ -74,21 +81,31 @@ def health_api_get():
 
 
 def _metrics_api(values):
-    global metrics_calls, total_miliseconds, total_words
-    metrics_calls += 1
-    start = datetime.datetime.now()
+    try:
+        logging.debug(f"pid: {os.getpid()}. Start")
 
-    text = values['text']
-    document = Document(text)
-    result = Analyzer(document).get_metrics()
-    end = datetime.datetime.now()
+        global metrics_calls, total_miliseconds, total_words
 
-    total_miliseconds += (end-start).microseconds
-    total_words += document.get_count_words()
+        metrics_calls += 1
+        start = datetime.datetime.now()
 
-    return json_answer(result)
+        text = values['text']
+        document = Document(text)
+        result = Analyzer(document).get_metrics()
+        end = datetime.datetime.now()
+
+        total_miliseconds += (end-start).microseconds
+        total_words += document.get_count_words()
+
+        return json_answer(result)
+
+    except Exception as exception:
+        logging.error(f"_metrics_api. pid: {os.getpid()} Error: {exception}")
+        return json_answer({}, 200)
 
 if __name__ == '__main__':
     app.debug = True
+    init_logging()
     app.run()
-
+else:
+    init_logging()
