@@ -43,7 +43,7 @@ app = Flask(__name__)
 CORS(app)
 
 metrics_calls = 0
-total_miliseconds = 0
+total_seconds = 0
 total_words = 0
 start_time = time.time()
 
@@ -72,10 +72,9 @@ def health_api_get():
     s.update(ws)
 
     s['metrics_calls'] = metrics_calls
-    seconds = total_miliseconds / 1000 if total_miliseconds else 0
-    s['words_per_second'] =  total_words / seconds if seconds else 0
-    s['average_time_per_request'] =  metrics_calls / seconds if seconds else 0
-    s['process_id'] =  os.getpid()
+    s['words_per_second'] = total_words / total_seconds if total_seconds else 0
+    s['average_time_per_request'] = total_seconds / metrics_calls if metrics_calls else 0
+    s['process_id'] = os.getpid()
     s['up_time'] = humanize.precisedelta(time.time() - start_time, minimum_unit="seconds", format="%0.0f")
     return s
 
@@ -84,7 +83,7 @@ def _metrics_api(values):
     try:
         logging.debug(f"pid: {os.getpid()}. Start")
 
-        global metrics_calls, total_miliseconds, total_words
+        global metrics_calls, total_seconds, total_words
 
         metrics_calls += 1
         start = datetime.datetime.now()
@@ -92,9 +91,9 @@ def _metrics_api(values):
         text = values['text']
         document = Document(text)
         result = Analyzer(document).get_metrics()
-        end = datetime.datetime.now()
 
-        total_miliseconds += (end-start).microseconds
+        time_used = datetime.datetime.now() - start
+        total_seconds += (time_used).total_seconds()
         total_words += document.get_count_words()
 
         return json_answer(result)
