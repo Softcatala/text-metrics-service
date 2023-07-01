@@ -1,6 +1,6 @@
 # Introduction
 
-This services provides a set of metrics given a piece of text
+This service provides a set of metrics given a piece of text
 
 # Docker container
 

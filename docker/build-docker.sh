@@ -1,1 +1,1 @@
-docker build -t style-checker ../ -f dockerfile
+docker build -t text-metrics-service ../ -f dockerfile
