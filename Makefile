@@ -1,0 +1,7 @@
+.PHONY: docker-build docker-run
+
+docker-build:
+	docker build -t text-metrics-service . -f docker/dockerfile;
+
+docker-run:
+	docker run -it --rm -p 8505:8000 text-metrics-service;

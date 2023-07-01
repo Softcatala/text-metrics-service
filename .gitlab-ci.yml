@@ -3,7 +3,7 @@ stages:
   - build
 
 test:
-  image: python:3.9.4-slim-buster
+  image: python:3.11.4-slim-buster
   before_script:
     - pip install nose
   stage: test
