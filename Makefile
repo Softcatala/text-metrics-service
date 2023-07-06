@@ -7,4 +7,4 @@ docker-run:
 	docker run -it --rm -p 8505:8000 text-metrics-service;
 	
 test:
-	- cd core && python -m nose2
+	cd core && python -m nose2
