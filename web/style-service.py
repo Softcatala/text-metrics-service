@@ -30,6 +30,7 @@ import time
 import humanize
 import logging
 import logging.handlers
+import psutil
 
 sys.path.append('../core/')
 
@@ -71,10 +72,12 @@ def health_api_get():
     ws = WordTokenizer.get_stats()
     s.update(ws)
 
+    rss = psutil.Process(os.getpid()).memory_info().rss // 1024 ** 2
     s['metrics_calls'] = metrics_calls
     s['words_per_second'] = total_words / total_seconds if total_seconds else 0
     s['average_time_per_request'] = total_seconds / metrics_calls if metrics_calls else 0
     s['process_id'] = os.getpid()
+    s['rss'] = f"{rss} MB"
     s['up_time'] = humanize.precisedelta(time.time() - start_time, minimum_unit="seconds", format="%0.0f")
     return s
 
