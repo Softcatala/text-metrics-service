@@ -88,6 +88,12 @@ def _metrics_api(values):
         metrics_calls += 1
         start = datetime.datetime.now()
 
+        if "text" not in values:
+            result = {}
+            result['error'] = "No s'ha especificat el paràmetre 'text'"
+            logging.debug(f"/metrics/ {result['error']}")
+            return json_answer(result, 404)
+
         text = values['text']
         document = Document(text)
         result = Analyzer(document).get_metrics()
