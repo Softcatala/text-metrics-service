@@ -31,6 +31,7 @@ import humanize
 import logging
 import logging.handlers
 import psutil
+import uuid
 
 sys.path.append('../core/')
 
@@ -84,7 +85,8 @@ def health_api_get():
 
 def _metrics_api(values):
     try:
-        logging.debug(f"pid: {os.getpid()}. Start")
+        _uuid = str(uuid.uuid4())
+        logging.debug(f"pid: {os.getpid()} - {_uuid}. Start")
 
         global metrics_calls, total_seconds, total_words
 
@@ -104,8 +106,9 @@ def _metrics_api(values):
         time_used = datetime.datetime.now() - start
         total_seconds += (time_used).total_seconds()
         total_words += document.get_count_words()
-
-        return json_answer(result)
+        r = json_answer(result)
+        logging.debug(f"pid: {os.getpid()} - {_uuid}. Ends")
+        return r
 
     except Exception as exception:
         logging.error(f"_metrics_api. pid: {os.getpid()} Error: {exception}")
