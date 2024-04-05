@@ -62,13 +62,23 @@ def json_answer(data, status = 200):
 @app.route('/metrics', methods=['POST'])
 def metrics_api_post():
     logging.debug(f"metrics_api_post call")
-    _flush_logs()        
+    _flush_logs()
+
+    for key in request.form:
+        l = len(request.form[key])
+        logging.debug(f"metrics_api_post param {key} - {l}")
+        _flush_logs()    
+    
     return _metrics_api(request.form)
 
 @app.route('/metrics', methods=['GET'])
 def metrics_api_get():
     logging.debug(f"metrics_api_get call")
-    _flush_logs()        
+    _flush_logs()
+    for key in request.args:
+        l = len(request.args[key])
+        logging.debug(f"metrics_api_get param {key} - {l}")
+        _flush_logs()    
     return _metrics_api(request.args)
     
 def _get_memory():    
