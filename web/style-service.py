@@ -50,7 +50,7 @@ total_words = 0
 start_time = time.time()
 
 def init_logging():
-    LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+    LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
     logging.basicConfig(level=LOGLEVEL, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def json_answer(data, status = 200):
@@ -86,6 +86,7 @@ def health_api_get():
 def _metrics_api(values):
     try:
         _uuid = str(uuid.uuid4())
+        
         logging.debug(f"pid: {os.getpid()} - {_uuid}. Start")
 
         global metrics_calls, total_seconds, total_words
@@ -100,6 +101,7 @@ def _metrics_api(values):
             return json_answer(result, 404)
 
         text = values['text']
+        logging.debug(f"pid: {os.getpid()} - '{text}'") 
         document = Document(text)
         result = Analyzer(document).get_metrics()
 
