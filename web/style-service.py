@@ -70,6 +70,10 @@ def metrics_api_get():
     logging.debug(f"metrics_api_get call")
     _flush_logs()        
     return _metrics_api(request.args)
+    
+def _get_memory():    
+    rss = psutil.Process(os.getpid()).memory_info().rss // 1024 ** 2
+    return f"{rss} MB"
 
 @app.route('/health', methods=['GET'])
 def health_api_get():
@@ -85,7 +89,7 @@ def health_api_get():
     s['words_per_second'] = total_words / total_seconds if total_seconds else 0
     s['average_time_per_request'] = total_seconds / metrics_calls if metrics_calls else 0
     s['process_id'] = os.getpid()
-    s['rss'] = f"{rss} MB"
+    s['rss'] = _get_memory()
     s['up_time'] = humanize.precisedelta(time.time() - start_time, minimum_unit="seconds", format="%0.0f")
     return s
     
@@ -122,7 +126,7 @@ def _metrics_api(values):
         total_seconds += (time_used).total_seconds()
         total_words += document.get_count_words()
         r = json_answer(result)
-        logging.debug(f"pid: {os.getpid()} - {_uuid}. Ends")
+        logging.debug(f"pid: {os.getpid()} - {_uuid}.Mem: {_get_memory()} Ends")
         _flush_logs()        
         return r
 
