@@ -81,6 +81,10 @@ def health_api_get():
     s['rss'] = f"{rss} MB"
     s['up_time'] = humanize.precisedelta(time.time() - start_time, minimum_unit="seconds", format="%0.0f")
     return s
+    
+def _flush_logs():
+    for handler in logging.getLogger().handlers:
+        handler.flush()    
 
 
 def _metrics_api(values):
@@ -88,7 +92,8 @@ def _metrics_api(values):
         _uuid = str(uuid.uuid4())
         
         logging.debug(f"pid: {os.getpid()} - {_uuid}. Start")
-
+        _flush_logs()
+ 
         global metrics_calls, total_seconds, total_words
 
         metrics_calls += 1
@@ -98,6 +103,7 @@ def _metrics_api(values):
             result = {}
             result['error'] = "No s'ha especificat el paràmetre 'text'"
             logging.debug(f"/metrics/ {result['error']}")
+            _flush_logs()
             return json_answer(result, 404)
 
         text = values['text']
@@ -110,10 +116,12 @@ def _metrics_api(values):
         total_words += document.get_count_words()
         r = json_answer(result)
         logging.debug(f"pid: {os.getpid()} - {_uuid}. Ends")
+        _flush_logs()        
         return r
 
     except Exception as exception:
         logging.error(f"_metrics_api. pid: {os.getpid()} Error: {exception}")
+        _flush_logs()        
         return json_answer({}, 200)
 
 if __name__ == '__main__':
