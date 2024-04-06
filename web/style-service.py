@@ -51,7 +51,7 @@ start_time = time.time()
 
 def init_logging():
     LOGDIR = os.environ.get('LOGDIR', '')
-    LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+    LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
     logger = logging.getLogger()
     logfile = os.path.join(LOGDIR, 'text-metrics-service.log')
     hdlr = logging.handlers.RotatingFileHandler(logfile, maxBytes=1024*1024, backupCount=1)
