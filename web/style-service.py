@@ -76,7 +76,14 @@ def json_answer(data, status = 200):
 def metrics_api_post():
     logging.debug(f"metrics_api_post call")
     _flush_logs()
+    
+    content_length = request.content_length
+    if content_length is not None:
+        logging.debug(f"Size of request body: {content_length}")
+        _flush_logs()
 
+    logging.debug("Read form values")
+    _flush_logs()
     for key in request.form:
         l = len(request.form[key])
         logging.debug(f"metrics_api_post param {key} - {l}")
