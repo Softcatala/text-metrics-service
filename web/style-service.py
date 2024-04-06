@@ -50,8 +50,21 @@ total_words = 0
 start_time = time.time()
 
 def init_logging():
-    LOGLEVEL = os.environ.get('LOGLEVEL', 'DEBUG').upper()
-    logging.basicConfig(level=LOGLEVEL, format='%(asctime)s - %(levelname)s - %(message)s')
+    LOGDIR = os.environ.get('LOGDIR', '')
+    LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
+    logger = logging.getLogger()
+    logfile = os.path.join(LOGDIR, 'text-metrics-service.log')
+    hdlr = logging.handlers.RotatingFileHandler(logfile, maxBytes=1024*1024, backupCount=1)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    hdlr.setFormatter(formatter)
+    logger.addHandler(hdlr)
+    logger.setLevel(LOGLEVEL)
+
+    console = logging.StreamHandler()
+    console.setLevel(LOGLEVEL)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    console.setFormatter(formatter)
+    logger.addHandler(console)
 
 def json_answer(data, status = 200):
     json_data = json.dumps(data, indent=4, separators=(',', ': '))
