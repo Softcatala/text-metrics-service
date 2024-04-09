@@ -29,7 +29,6 @@ class SrxSegmenter:
 
             compiled = compiled_patterns_cache.get(pattern)
             if not compiled:
-                pattern = pattern.replace("(\Q...\E|…)", "(\.\.\.|…)") # Fix bug in regular srx_segmenter.py
                 compiled = regex.compile(pattern)
                 compiled_patterns_cache[pattern] = compiled
 
