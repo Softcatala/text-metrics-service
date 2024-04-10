@@ -30,6 +30,7 @@ import time
 import humanize
 import logging
 import logging.handlers
+import psutil
 
 sys.path.append('../core/')
 
@@ -78,6 +79,10 @@ def metrics_api_post():
 def metrics_api_get():
     return _metrics_api(request.args)
 
+def _get_memory():
+    rss = psutil.Process(os.getpid()).memory_info().rss // 1024 ** 2
+    return f"{rss} MB"
+
 @app.route('/health', methods=['GET'])
 def health_api_get():
     s = Syllabes.get_stats()
@@ -88,6 +93,7 @@ def health_api_get():
     s['words_per_second'] = total_words / total_seconds if total_seconds else 0
     s['average_time_per_request'] = total_seconds / metrics_calls if metrics_calls else 0
     s['process_id'] = os.getpid()
+    s['rss'] = _get_memory()
     s['up_time'] = humanize.precisedelta(time.time() - start_time, minimum_unit="seconds", format="%0.0f")
     return s
 
