@@ -118,6 +118,10 @@ def _metrics_api(values):
         result = Analyzer(document).get_metrics()
 
         time_used = datetime.datetime.now() - start
+        if time_used.seconds >= 5:
+            logging.error(f"text: '{time_used}'")
+            logging.error(f"text: '{text}'")
+
         total_seconds += (time_used).total_seconds()
         total_words += document.get_count_words()
 
