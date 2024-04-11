@@ -29,13 +29,13 @@ class TesSrxSegmenter(unittest.TestCase):
 
     def test_two_sentences(self):
         text =  "This is a sample text. It contains multiple sentences."
-        segmenter = srx_segmenter.SrxSegmenter(rules["Catalan2"], text)
+        segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], text)
         segments, whitespaces = segmenter.extract()
         self.assertEqual(2, len(segments))
 
     def test_two_sentences_accents(self):
         text =  "Això és una prova. Tot anirà bé"
-        segmenter = srx_segmenter.SrxSegmenter(rules["Catalan2"], text)
+        segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], text)
         segments, whitespaces = segmenter.extract()
         self.assertEqual(2, len(segments))
         self.assertEqual("Això és una prova.", segments[0])
@@ -43,18 +43,19 @@ class TesSrxSegmenter(unittest.TestCase):
 
     def test_two_sentences_commas(self):
         text =  "Això és una prova. va dir. Tot anirà bé"
-        segmenter = srx_segmenter.SrxSegmenter(rules["Catalan2"], text)
+        segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], text)
         segments, whitespaces = segmenter.extract()
-        self.assertEqual(2, len(segments))
-        self.assertEqual("Això és una prova. va dir.", segments[0])
+        self.assertEqual(3, len(segments))
+        self.assertEqual("Això és una prova.", segments[0])
+        self.assertEqual("Va dir.", segments[1])        
         self.assertEqual("Tot anirà bé", segments[1])        
 
     def test_two_sentences_quotes(self):
         text =  "Sense pensar-ho. Tot per tu. Fins demà. Fins avui."
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], text)
         segments, whitespaces = segmenter.extract()
-        self.assertEqual("Sense pensar-ho. Tot per tu.", segments[0])
-        self.assertEqual("Fins demà.", segments[1])      
+        self.assertEqual("Sense pensar-ho.", segments[0])
+        self.assertEqual("Tot per tu.", segments[1])      
 
     def test_two_sentences_with_SR(self):
         text =  "La Sra. Maria no vindrà amb el Sr. Joan al bateig."
