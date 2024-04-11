@@ -77,9 +77,9 @@ class SrxSegmenter:
         return segments, whitespaces
 
 def _add_softcatala_rules(rules):
-    rules["English"]["breaks"].append(["\n", #Before
-                                      ""] # After
-                                     )
+#    rules["English"]["breaks"].append(["\n", #Before
+#                                      ""] # After
+#                                     )
 
     rules["Catalan"]["breaks"].append(["\n", #Before
                                       ""] # After
