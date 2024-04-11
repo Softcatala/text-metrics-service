@@ -53,8 +53,6 @@ class TesSrxSegmenter(unittest.TestCase):
         text =  "Sense pensar-ho. Tot per tu. Fins demà. Fins avui."
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], text)
         segments, whitespaces = segmenter.extract()
-        print(segments)
-#        self.assertEqual(3, len(segments))
         self.assertEqual("Sense pensar-ho. Tot per tu.", segments[0])
         self.assertEqual("Fins demà.", segments[1])      
 
@@ -62,17 +60,12 @@ class TesSrxSegmenter(unittest.TestCase):
         text =  "La Sra. Maria no vindrà amb el Sr. Joan al bateig."
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], text)
         segments, whitespaces = segmenter.extract()
-        print(segments)
-#        self.assertEqual(3, len(segments))
         self.assertEqual("La Sra. Maria no vindrà amb el Sr. Joan al bateig.", segments[0])
 
     def test_two_sentences_with_segle(self):
         text =  "No va ser fins el segle XV. que van venir."
         segmenter = srx_segmenter.SrxSegmenter(rules["Catalan"], text)
         segments, whitespaces = segmenter.extract()
-        print("segments:" + str(segments))
-        print("segments:" + str(len(segments)))
-#        self.assertEqual(3, len(segments))
         self.assertEqual("No va ser fins el segle XV. que van venir.", segments[0])
 
 if __name__ == '__main__':
